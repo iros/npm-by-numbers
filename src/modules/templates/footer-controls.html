@@ -1,37 +1,35 @@
- <!-- buttons to rebuild waffle chart -->
-<div id="exploreby">
-  <h3>Explore this subset by:</h3>
-  <div class="subtext">(Click the buttons below to rearrange the grid)</div>
+<!-- buttons to rebuild waffle chart -->
 
-  <ul>
-    <li>
-      Major Version #
-    </li>
+  <section class="exploreby">
+    <h3>Explore this subset by:</h3>
+    <div class="subtext">(Click the buttons below to rearrange the grid)</div>
+    <ul class="grid-menu">
+      <li data-grid="versions" class="selected">
+        major version #
+      </li>
 
-    <li>
-      Age
-    </li>
+      <li data-grid="age">
+        age
+      </li>
 
-    <li>
-      Dependents
-    </li>
-  </ul>
+      <li data-grid="dependents">
+        dependents
+      </li>
+    </ul>
 
-  <!-- legend for how much each circle is worth. -->
-  <div class="legend">
-    <div class="symbol">O</symbol>
-    Each symbol is equal to 50 packages
+    <!-- legend for how much each circle is worth. -->
+    <div class="subtext">
+      <div class="symbol"></div>
+        Each symbol is equal to 50 packages
+    </div>
+  </section>
+
+  <!-- Questions for every breakdown -->
+  <div class="questions">
+    <h3>Questions:</h3>
+    <div class="subtext">(Click the bold text to see details)</div>
+
+    <!-- question list, depending on the group -->
+    <ul>
+    </ul>
   </div>
-
-</div>
-
-<!-- Questions for every breakdown -->
-<div id="questions">
-  <h3>Questions:</h3>
-  <div class="subtext">(Click the bold text to see details)</div>
-
-  <!-- question list, depending on the group -->
-  <ul>
-
-  </ul>
-</div>
