@@ -1,0 +1,41 @@
+{
+  "name": "npmjs-vis",
+  "version": "0.0.0",
+  "homepage": "https://github.com/iros/local-npmjs-skimdb",
+  "authors": [
+    "Irene Ros <imirene@gmail.com>"
+  ],
+  "description": "NPM.js data visualization",
+  "main": "src/main.js",
+  "keywords": [
+    "data",
+    "data",
+    "visualization",
+    "visualization",
+    "vis",
+    "datavis",
+    "npm.js"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "d3": "~3.4.11",
+    "backbone": "~1.1.2",
+    "lodash": "~2.4.1",
+    "jquery": "~2.1.1",
+    "requirejs": "~2.1.14",
+    "lodash-template-loader": "~0.1.6",
+    "d3.chart": "~0.2.1",
+    "layoutmanager": "~0.9.5"
+  },
+  "devDependencies": {
+    "almond": "~0.2.9"
+  }
+}

@@ -1,0 +1,99 @@
+/* ------------------ */
+/*   Primary styles   */
+/* ------------------ */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: $background_color;
+}
+
+a {
+  text-decoration: none;
+  color: $links_red;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+h1 {
+  margin: 0;
+}
+
+.symbol {
+  display: inline-block;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  background-color: $data_lightblue
+}
+
+.subtext {
+  color: grey;
+  font-size: 0.8em;
+}
+
+/* ----------------- */
+/* Layout sizing     */
+/* ----------------- */
+
+default-section() {
+  padding: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: white;
+  width: 100%;
+  position: absolute;
+}
+
+#topbar {
+  top: 0;
+  height: $topbar_height;
+  right: 0;
+  border-bottom: 1px solid $border_color;
+  default-section();
+}
+
+#bottombar {
+  bottom: 0;
+  right: 0;
+  border-top: 1px solid $border_color;
+  height: $bottombar_height;
+  default-section();
+
+  .logo {
+    width: 266px;
+    display: inline-block;
+    float:left;
+  }
+
+  .about {
+    float:left;
+    display:block;
+    float: none;
+    overflow: hidden;
+
+    .subtext {
+      float:left;
+    }
+
+    .start {
+      float:right;
+      font-weight: bold;
+      font-size: 1.3em;
+      font-variant:small-caps;
+    }
+  }
+}
