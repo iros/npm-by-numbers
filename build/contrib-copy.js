@@ -7,6 +7,12 @@ module.exports = function(grunt) {
       src: '**/*',
       dest: 'prod/img',
     },
+    data: {
+      expand: true,
+      cwd: 'assets/data',
+      src: '**/*',
+      dest: 'prod/data',
+    }
   });
 
   grunt.loadNpmTasks('grunt-contrib-copy');

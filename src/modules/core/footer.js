@@ -1,7 +1,7 @@
 define(function(require) {
   var Backbone = require('backbone');
   var $ = require('jquery');
-  var Questions = require('src/modules/components/questions');
+  var QuestionsView = require('src/modules/components/questions-view');
 
   return Backbone.View.extend({
     template : require('tmpl!src/modules/templates/footer-start'),
@@ -23,7 +23,7 @@ define(function(require) {
       this.$el.html(require('tmpl!src/modules/templates/footer-controls')());
 
       // render default
-      this.questionsView = new Questions();
+      this.questionsView = new QuestionsView();
       this.insertView('.questions ul', this.questionsView).render();
 
       return false;

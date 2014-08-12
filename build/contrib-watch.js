@@ -24,6 +24,10 @@ module.exports = function(grunt) {
       files: 'src/pages/*.jade',
       tasks: ['jade:dev'],
     },
+    assets: {
+      files: 'assets/**/*',
+      tasks: ['copy']
+    },
     styles: {
       files: 'src/**/*.styl',
       tasks: ['stylus:dev'],

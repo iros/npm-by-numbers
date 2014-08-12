@@ -28,6 +28,10 @@ require.config({
     d3Chart: {
       exports: "d3.chart",
       deps: ["d3"]
+    },
+
+    d3: {
+      exports: "d3"
     }
   },
   deps: ["src/main"]
