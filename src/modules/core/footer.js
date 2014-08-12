@@ -40,6 +40,8 @@ define(function(require) {
       var questionType = target.data('grid');
       this.questionsView.trigger('change-questions', questionType);
 
+      this.trigger('grid-switch', target.data('grid'));
+
       return false;
     }
 

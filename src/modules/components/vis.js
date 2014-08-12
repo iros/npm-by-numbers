@@ -22,12 +22,15 @@ define(function(require) {
       var self = this;
 
       self.data = {};
+      self.dataModeler = null;
+      self.waffleChart = null;
 
       $.when(getStats).then(function(stats) {
         self.data.stats = stats;
         self.trigger('data-fetched');
       });
 
+      self.on('grid-switch', self.updateGrid);
     },
 
     _computeGridForBreakdown: function(breakdown) {
@@ -38,7 +41,7 @@ define(function(require) {
         return LayoutMath.findMultiBreakdownDims(
           this.dims.width, this.dims.height,
           this.data.stats.dimensions[breakdown],
-          100,   //padding
+          50,   //padding
           100,   // pkgs per dot
           this.data.stats.order[breakdown]);  // breakdwn order
 
@@ -55,6 +58,16 @@ define(function(require) {
           100,   // pkgs per dot
           ["total"]);  // breakdown order is default... just total.
       }
+    },
+
+    // reacts to grid change
+    updateGrid: function(breakdown) {
+      var self = this;
+
+      self.dataModeler.setBreakdown(breakdown);
+      var dims = self._computeGridForBreakdown(breakdown);
+      self.waffleChart.dimensions(dims);
+      self.waffleChart.draw(self.dataModeler.dots);
     },
 
     afterRender: function() {
@@ -74,15 +87,15 @@ define(function(require) {
       this.svg.attr('height', self.dims.height);
 
       this.on('data-fetched', function() {
-        var d = new DataModeler(self.data.stats);
+        self.dataModeler = new DataModeler(self.data.stats);
 
         var dims = self._computeGridForBreakdown();
         //console.log(d.dots, dims);
 
-        var waffleChart = self.svg
+        self.waffleChart = self.svg
           .chart('waffleChart', { dims: dims });
 
-        waffleChart.draw(d.dots);
+        self.waffleChart.draw(self.dataModeler.dots);
 
       });
     }

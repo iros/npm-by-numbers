@@ -14,6 +14,28 @@ define(function(require) {
     },
 
     /**
+     * Update/gets grids for this chart
+     * @param  {Object} dims Dimensions object containing radius and grids
+     * @return {Object}      current dimensions.
+     */
+    dimensions: function(dims) {
+      var self = this;
+
+      if (arguments.length) {
+        self.dims = dims;
+
+        // for every grid, count which item we're on.
+        self.gridCounts = {};
+        self.dims.grids.forEach(function(grid) {
+          self.gridCounts[grid.group] = 0;
+        });
+
+      } else {
+        return self.dims;
+      }
+    },
+
+    /**
      * Initializes a waffle chart of N different dots in M different
      * breakdowns
      * @param  {Object} dimentions Expected: { radius : M, grids : { ... }}
@@ -22,17 +44,11 @@ define(function(require) {
     initialize: function(options) {
 
       var self = this;
-
-      self.dims = options.dims;
       self._first = true;
 
       self.base.classed('waffleChart', true);
 
-      // for every grid, count which item we're on.
-      self.gridCounts = {};
-      self.dims.grids.forEach(function(grid) {
-        self.gridCounts[grid.group] = 0;
-      });
+      self.dimensions(options.dims);
 
       self.bases = {
         dots : self.base.append('g')
@@ -87,11 +103,10 @@ define(function(require) {
 
           enter: function() {
 
-
           },
 
           update: function() {
-            this.attr('opacity', 0).transition().attr('opacity', 1);
+
           },
 
           exit: function() {

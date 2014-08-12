@@ -8,12 +8,20 @@ define(function(require) {
   var VisView = require('src/modules/components/vis');
 
   // Use main layout and set Views.
+
+  var footerView = new FooterView();
+  var visView = new VisView();
+
+  footerView.on('grid-switch', function(grid) {
+    visView.trigger('grid-switch', grid);
+  });
+
   var MainLayout = Layout.extend({
     el: "#main",
     template: require("tmpl!src/modules/layouts/main"),
     views: {
-      '#bottombar' : new FooterView(),
-      '#vis' : new VisView()
+      '#bottombar' : footerView,
+      '#vis' : visView
     }
   });
 

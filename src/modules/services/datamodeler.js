@@ -46,32 +46,38 @@ define(function(require) {
       var subset_data = this.data.questions[breakdown][category];
       var subset_size = this.data.dimensions[breakdown][category];
 
-      for (var j = 0; j < Math.floor(subset_size / this.perdot); j++) {
+      for (var j = 0; j < Math.round(subset_size / this.perdot); j++) {
+      // for (var j = subset_size; j >= 0; j=- this.perdot) {
 
         // get the dot we're modifying (we're reusing them, so that the ids
         // stay the same.)
         dot = this.dots[count++];
 
-        // save the ID, drop the rest
-        dot = { id : dot.id };
+        if (dot) {
+          // save the ID, drop the rest
+          dot = { id : dot.id };
 
-        // copy over properties if they remain
-        properties = _.keys(subset_data);
+          // copy over properties if they remain
+          properties = _.keys(subset_data);
 
-        for (var k = 0; k < properties.length; k++) {
-          if ((j * this.perdot) < (Math.ceil(subset_data[properties[k]] / this.perdot) * this.perdot)){
-            dot[properties[k]] = 1;
-          } else {
-            dot[properties[k]] = 0;
+          for (var k = 0; k < properties.length; k++) {
+            // if ((j * this.perdot) < (Math.ceil(subset_data[properties[k]] / this.perdot) * this.perdot)){
+
+            if ((j * this.perdot) < subset_data[properties[k]]) {
+            // if (j < (Math.ceil(subset_data[properties[k]] / this.perdot) * this.perdot)){
+              dot[properties[k]] = 1;
+            } else {
+              dot[properties[k]] = 0;
+            }
           }
+
+          // save the specific breakdown category here
+          dot[breakdown] = category;
+          dot.breakdown = category;
+          dot.breakdown_idx = this.data.order[breakdown].indexOf(category);
+
+          dots.push(dot);
         }
-
-        // save the specific breakdown category here
-        dot[breakdown] = category;
-        dot.breakdown = breakdown;
-        dot.breakdown_idx = this.data.order.indexOf(breakdown);
-
-        dots.push(dot);
       }
     }
 
