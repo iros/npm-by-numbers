@@ -53,31 +53,34 @@ define(function(require) {
         // stay the same.)
         dot = this.dots[count++];
 
-        if (dot) {
+        if (typeof dot === "undefined") {
+          dot = { id : count-1 };
+        } else {
           // save the ID, drop the rest
           dot = { id : dot.id };
-
-          // copy over properties if they remain
-          properties = _.keys(subset_data);
-
-          for (var k = 0; k < properties.length; k++) {
-            // if ((j * this.perdot) < (Math.ceil(subset_data[properties[k]] / this.perdot) * this.perdot)){
-
-            if ((j * this.perdot) < subset_data[properties[k]]) {
-            // if (j < (Math.ceil(subset_data[properties[k]] / this.perdot) * this.perdot)){
-              dot[properties[k]] = 1;
-            } else {
-              dot[properties[k]] = 0;
-            }
-          }
-
-          // save the specific breakdown category here
-          dot[breakdown] = category;
-          dot.breakdown = category;
-          dot.breakdown_idx = this.data.order[breakdown].indexOf(category);
-
-          dots.push(dot);
         }
+
+        // copy over properties if they remain
+        properties = _.keys(subset_data);
+
+        for (var k = 0; k < properties.length; k++) {
+          // if ((j * this.perdot) < (Math.ceil(subset_data[properties[k]] / this.perdot) * this.perdot)){
+
+          if ((j * this.perdot) < subset_data[properties[k]]) {
+          // if (j < (Math.ceil(subset_data[properties[k]] / this.perdot) * this.perdot)){
+            dot[properties[k]] = 1;
+          } else {
+            dot[properties[k]] = 0;
+          }
+        }
+
+        // save the specific breakdown category here
+        dot[breakdown] = category;
+        dot.breakdown = category;
+        dot.breakdown_idx = this.data.order[breakdown].indexOf(category);
+
+        dots.push(dot);
+
       }
     }
 

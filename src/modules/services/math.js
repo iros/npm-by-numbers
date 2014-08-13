@@ -66,7 +66,7 @@ define(function(require) {
     var groupCount = groupNames.length;
 
     var totalPadding = (groupCount - 1) * paddingBetweenGroups;
-    var remainingWidth = width - totalPadding;
+    var remainingWidth = width - totalPadding - 15; // padding for the end...
 
     var scale = d3.scale.linear()
       .domain([0, total])

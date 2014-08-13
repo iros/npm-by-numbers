@@ -110,7 +110,7 @@ define(function(require) {
           },
 
           exit: function() {
-
+            this.remove();
           }
         }
       });
