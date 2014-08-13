@@ -68,6 +68,8 @@ define(function(require) {
     var totalPadding = (groupCount - 1) * paddingBetweenGroups;
     var remainingWidth = width - totalPadding - 60; // padding for the end...
 
+    height -= 10; // padding at the top match
+
     // if this is just the first screen, don't have all this padding
     if (groupCount === 1) {
       remainingWidth = width;
