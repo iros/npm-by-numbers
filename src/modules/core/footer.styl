@@ -1,0 +1,99 @@
+#bottombar {
+  bottom: 0;
+  right: 0;
+  border-top: 1px solid $border_color;
+  height: $bottombar_height;
+  default-section();
+
+  h3 {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* starting footer */
+  .logo {
+    width: 266px;
+    display: inline-block;
+    float:left;
+  }
+
+  .about {
+    float:left;
+    display:block;
+    float: none;
+    overflow: hidden;
+
+    .subtext {
+      float:left;
+    }
+
+    .start {
+      float:right;
+      font-weight: bold;
+      font-size: 1.3em;
+      font-variant:small-caps;
+    }
+  }
+
+  /* control footer */
+  .exploreby {
+    width: 300px;
+    display: inline-block;
+    float:left;
+
+    ul.grid-menu {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      margin-top: 10px;
+      padding-bottom: 40px;
+
+      li {
+        display: inline-block;
+        float: left;
+        padding: 5px;
+        border: 1px solid $links_red;
+        color: $links_red;
+        font-variant:small-caps;
+        background-color: $background_color;
+        margin-right: 5px;
+        cursor: pointer;
+      }
+
+      li:hover {
+        color: $data_medblue;
+        border-color: $data_medblue;
+      }
+
+      li.selected {
+        font-weight: bold;
+        box-shadow:inset 0px 0px 0px 1px $links_red;
+      }
+
+      li.selected:hover {
+        box-shadow:inset 0px 0px 0px 1px $data_medblue;
+      }
+    }
+  }
+
+  .questions {
+    float:left;
+    display:block;
+    float: none;
+    overflow: hidden;
+
+    ul {
+      margin-top: 10px;
+
+      li {
+        font-size: .8em;
+        margin-bottom: 10px;
+
+        a {
+          font-weight: bold;
+          font-variant:small-caps;
+        }
+      }
+    }
+  }
+}
