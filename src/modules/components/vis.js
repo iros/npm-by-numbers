@@ -1,17 +1,13 @@
 define(function(require) {
-  var $ = require('jquery');
+
   var Backbone = require('backbone');
   var d3 = require('d3');
-  var when = require('when');
 
   var LayoutMath = require('src/modules/services/math');
   var DataModeler = require('src/modules/services/datamodeler');
 
   // get our chart.
   require('src/modules/services/waffle-chart');
-
-  // get data!
-  var getStats = $.ajax('/data/stats_reduced.json');
 
   // var defaultBreakdown = 'versions';
 
@@ -22,35 +18,46 @@ define(function(require) {
     initialize: function() {
       var self = this;
 
-      self.data = {};
       self.dataModeler = null;
       self.waffleChart = null;
-      self.dataFetched = when.defer();
-
-      $.when(getStats).then(function(stats) {
-        self.data.stats = stats;
-        self.trigger('data-fetched');
-      });
+      self.gridDims = null;
+      self.breakdown = null;
 
       self.on('grid-switch', self.updateGrid);
+    },
+
+    /**
+     * Sets the dataset for current visualization
+     * @param {Object} data Stats object
+     */
+    setData: function(data) {
+      this.data = data;
+    },
+
+    /**
+     * Get the current waffle chart grid breakdown
+     * @return {Object} Grid dimensions
+     */
+    getDimensions: function() {
+      return this.gridDims;
     },
 
     _computeGridForBreakdown: function(breakdown) {
 
       // when computing specific breakdown data
-      if (typeof this.data.stats.dimensions[breakdown] !== "undefined") {
+      if (typeof this.data.dimensions[breakdown] !== "undefined") {
 
         return LayoutMath.findMultiBreakdownDims(
           this.dims.width, this.dims.height,
-          this.data.stats.dimensions[breakdown],
+          this.data.dimensions[breakdown],
           50,   //padding
           100,   // pkgs per dot
-          this.data.stats.order[breakdown]);  // breakdwn order
+          this.data.order[breakdown]);  // breakdwn order
 
       // when computing all breakdown data
       } else if (breakdown === "total" || typeof breakdown === "undefined") {
         var groups = {
-          total : this.data.stats.total
+          total : this.data.total
         };
 
         return LayoutMath.findMultiBreakdownDims(
@@ -65,27 +72,21 @@ define(function(require) {
     // reacts to grid change
     updateGrid: function(breakdown) {
       var self = this;
-      self._updateWaffleChart(breakdown);
-      self._updateHeader(breakdown);
-    },
+      self.breakdown = breakdown;
 
-    _updateHeader: function(breakdown) {
-
-    },
-
-    _updateWaffleChart: function(breakdown) {
-      var self = this;
-
-      self.dataFetched.promise.then(function() {
-        self.dataModeler.setBreakdown(breakdown);
-        var dims = self._computeGridForBreakdown(breakdown);
-        self.waffleChart.dimensions(dims);
-        self.waffleChart.draw(self.dataModeler.dots);
-      });
+      self.dataModeler.setBreakdown(breakdown);
+      self.gridDims = self._computeGridForBreakdown(breakdown);
+      self.waffleChart.dimensions(self.gridDims);
+      self.waffleChart.draw(self.dataModeler.dots);
     },
 
     afterRender: function() {
       var self = this;
+
+      // first time activities:
+      // * set the svg dimensions based on parents
+      // * create a data modeler to build our data into something meaningful.
+      // * render starting waffle chart
 
       self.dims = {
         width: this.$el.parent().width(),
@@ -97,19 +98,16 @@ define(function(require) {
       this.svg.attr('width', self.dims.width);
       this.svg.attr('height', self.dims.height);
 
-      this.on('data-fetched', function() {
 
-        self.dataFetched.resolve();
-        self.dataModeler = new DataModeler(self.data.stats);
+      self.dataModeler = new DataModeler(self.data);
 
-        var dims = self._computeGridForBreakdown();
+      self.gridDims = self._computeGridForBreakdown();
 
-        self.waffleChart = self.svg
-          .chart('waffleChart', { dims: dims });
+      self.waffleChart = self.svg
+        .chart('waffleChart', { dims: self.gridDims });
 
-        self.waffleChart.draw(self.dataModeler.dots);
+      self.waffleChart.draw(self.dataModeler.dots);
 
-      });
     }
   });
 });

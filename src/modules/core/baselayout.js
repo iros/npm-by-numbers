@@ -4,11 +4,13 @@ define(function(require) {
 
   Layout.configure({ manage: true });
 
+  var TopbarView = require('src/modules/core/topbar');
   var FooterView = require("src/modules/core/footer");
   var VisView = require('src/modules/components/vis');
 
   // Use main layout and set Views.
 
+  var topbarView = new TopbarView();
   var footerView = new FooterView();
   var visView = new VisView();
 
@@ -16,18 +18,29 @@ define(function(require) {
     el: "#main",
     template: require("tmpl!src/modules/layouts/main"),
     views: {
+      '#topbar': topbarView,
       '#bottombar' : footerView,
       '#vis' : visView
     },
 
-    updateBreakdown: function(breakdown) {
-      visView.updateGrid(breakdown);
+    setData: function(data) {
+      topbarView.setData(data);
+      visView.setData(data);
+      footerView.setData(data);
     },
 
-    renderQuestions: function(breakdown) {
+    updateBreakdown: function(breakdown) {
+
+      // update footer
       if (!footerView.areQuestionsRendered()) {
         footerView.renderQuestions(breakdown);
       }
+
+      // update the waffle chart
+      visView.updateGrid(breakdown);
+
+      // update the categories at the top
+      topbarView.updateGrid(breakdown, visView.getDimensions());
     }
   });
 

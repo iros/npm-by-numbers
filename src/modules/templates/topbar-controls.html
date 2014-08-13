@@ -1,0 +1,7 @@
+<div>
+  <% data.order[breakdown].forEach(function(category, idx) { %>
+    <div class="category" style="left: <%= dims.grids[idx].offset + 5 %>px">
+      <h4><%= data.names[breakdown][idx] %></h4>
+    </div>
+  <% }); %>
+</div>

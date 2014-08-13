@@ -68,6 +68,26 @@ default-section() {
   right: 0;
   border-bottom: 1px solid $border_color;
   default-section();
+
+  .category {
+    position: absolute;
+    top: $topbar_height / 3;
+
+    h4 {
+      font-size: 0.8em;
+      color: $links_red;
+      font-variant:small-caps;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  h3 {
+    padding-top: 0;
+    margin-top: 5px;
+    color: $links_red;
+    font-variant:small-caps;
+  }
 }
 
 #vis {

@@ -16,6 +16,10 @@ define(function(require) {
       this.questionsRendered = false;
     },
 
+    setData: function(data) {
+      this.data = data;
+    },
+
     areQuestionsRendered: function() {
       return this.questionsRendered;
     },
