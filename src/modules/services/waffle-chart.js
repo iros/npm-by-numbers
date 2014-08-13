@@ -79,9 +79,6 @@ define(function(require) {
               // if first time painting, animate from a good starting point
               if (self._first) {
 
-                // var x_start = x - self.dims.radius * 10;
-                // var y_start = y - self.dims.radius * 10;
-
                 selection.attr({
                   cx: x,
                   cy: grid.height

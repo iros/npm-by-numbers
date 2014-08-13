@@ -66,7 +66,12 @@ define(function(require) {
     var groupCount = groupNames.length;
 
     var totalPadding = (groupCount - 1) * paddingBetweenGroups;
-    var remainingWidth = width - totalPadding - 50; // padding for the end...
+    var remainingWidth = width - totalPadding - 60; // padding for the end...
+
+    // if this is just the first screen, don't have all this padding
+    if (groupCount === 1) {
+      remainingWidth = width;
+    }
 
     var scale = d3.scale.linear()
       .domain([0, total])
@@ -99,7 +104,7 @@ define(function(require) {
       dims.width = width;
       dims.height = height;
       dims.group = groupNames[0];
-      dims.offset = 0;
+      dims.offset = 10; // default margin on the left
 
       return _.extend({}, { radius : r, grids: [dims] });
 
@@ -107,7 +112,7 @@ define(function(require) {
 
       // now that we have the radius, recompute the groups with this unit and the
       // widths we have based on value.
-      var gridDims = [], offset = 0;
+      var gridDims = [], offset = 10; // default margin on the left
       for(i = 0; i < groupCount; i++) {
 
         // get the group we're looking at
