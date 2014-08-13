@@ -3,7 +3,7 @@ define(function(require) {
   var Backbone = require('backbone');
   var d3 = require('d3');
 
-  var LayoutMath = require('src/modules/services/math');
+  var LayoutMath = require('src/modules/services/layoutmath');
   var DataModeler = require('src/modules/services/datamodeler');
 
   // get our chart.

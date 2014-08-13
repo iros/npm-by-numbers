@@ -3,9 +3,9 @@ define(function(require) {
   var $ = require('jquery');
 
   var questionTemplates = {
-    versions: require('tmpl!src/modules/components/questions-versions'),
-    age: require('tmpl!src/modules/components/questions-age'),
-    dependents: require('tmpl!src/modules/components/questions-dependents')
+    versions: require('tmpl!src/modules/templates/questions-versions'),
+    age: require('tmpl!src/modules/templates/questions-age'),
+    dependents: require('tmpl!src/modules/templates/questions-dependents')
   };
 
 

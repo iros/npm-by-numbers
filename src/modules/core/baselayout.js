@@ -4,8 +4,8 @@ define(function(require) {
 
   Layout.configure({ manage: true });
 
-  var TopbarView = require('src/modules/core/topbar');
-  var FooterView = require("src/modules/core/footer");
+  var TopbarView = require('src/modules/components/topbar');
+  var FooterView = require("src/modules/components/footer");
   var VisView = require('src/modules/components/vis');
 
   // Use main layout and set Views.
