@@ -10,12 +10,15 @@ require.config({
     d3: "bower_components/d3/d3",
     d3Chart: "bower_components/d3.chart/d3.chart",
     layoutmanager: "bower_components/layoutmanager/backbone.layoutmanager",
+    when: "bower_components/when/when",
 
     components: "src/modules/components",
     layouts: "src/modules/components/layouts",
     core: "src/modules/core",
     services: "src/modules/services"
   },
+
+  packages: [{ main: "when", location: "bower_components/when", name: "when" }],
 
   shim: {
     backbone: {

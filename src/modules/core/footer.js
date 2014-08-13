@@ -13,11 +13,14 @@ define(function(require) {
 
     initialize: function() {
       this.questionsView = null;
+      this.questionsRendered = false;
     },
 
-    onStart: function(ev) {
-      ev.preventDefault();
-      ev.stopPropagation();
+    areQuestionsRendered: function() {
+      return this.questionsRendered;
+    },
+
+    renderQuestions: function(breakdown) {
 
       // replace footer with controls footer
       this.$el.html(require('tmpl!src/modules/templates/footer-controls')());
@@ -26,21 +29,49 @@ define(function(require) {
       this.questionsView = new QuestionsView();
       this.insertView('.questions ul', this.questionsView).render();
 
+      if (breakdown) {
+        this.updateQuestions(breakdown);
+      }
+
+      this.questionsRendered = true;
+    },
+
+    onStart: function(ev) {
+      ev.preventDefault();
+      ev.stopPropagation();
+
+      this.renderQuestions();
+
+      // trigger breakdown update
+      this.trigger('navigate', 'breakdown/versions');
+
       return false;
+    },
+
+    updateQuestions: function(breakdown) {
+
+      // remove selected from current
+      var current = this.$el.find('li.selected');
+      current.removeClass('selected');
+
+      // mark new selected based on breakdown
+      var newselected = this.$el.find('li[data-grid=' + breakdown + ']');
+      newselected.addClass('selected');
+
+      // update questions
+      this.questionsView.questionChange(breakdown);
+
+      return breakdown;
     },
 
     gridSwitch: function(ev) {
 
-      // remove selected from current
-      var target = $(ev.target);
-      target.parent().find('.selected').removeClass('selected');
-      target.addClass('selected');
+      var breakdown = $(ev.target).data('grid');
 
-      // tell the questions view to update its grid
-      var questionType = target.data('grid');
-      this.questionsView.trigger('change-questions', questionType);
+      this.updateQuestions(breakdown);
 
-      this.trigger('grid-switch', target.data('grid'));
+      // trigger breakdown update
+      this.trigger('navigate', 'breakdown/' + breakdown);
 
       return false;
     }

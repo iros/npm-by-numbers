@@ -12,18 +12,31 @@ define(function(require) {
   var footerView = new FooterView();
   var visView = new VisView();
 
-  footerView.on('grid-switch', function(grid) {
-    visView.trigger('grid-switch', grid);
-  });
-
   var MainLayout = Layout.extend({
     el: "#main",
     template: require("tmpl!src/modules/layouts/main"),
     views: {
       '#bottombar' : footerView,
       '#vis' : visView
+    },
+
+    updateBreakdown: function(breakdown) {
+      visView.updateGrid(breakdown);
+    },
+
+    renderQuestions: function(breakdown) {
+      if (!footerView.areQuestionsRendered()) {
+        footerView.renderQuestions(breakdown);
+      }
     }
   });
 
-  return new MainLayout();
+  // navigate if we're switching breakdowns. Paths:
+  // breakdown/versions, breakdown/age, breakdown/dependencies
+  footerView.on('navigate', function(path) {
+    layout.trigger('navigate', path);
+  });
+
+  var layout = new MainLayout();
+  return layout;
 });

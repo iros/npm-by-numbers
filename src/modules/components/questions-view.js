@@ -17,11 +17,10 @@ define(function(require) {
 
     initialize: function() {
 
-      // when someone tells us to update the questions, change to the
-      // appropriate type
-      this.on('change-questions', this.questionChange);
     },
 
+    // when someone tells us to update the questions, change to the
+    // appropriate type
     questionChange: function(type) {
       this.$el.html(questionTemplates[type]());
     },

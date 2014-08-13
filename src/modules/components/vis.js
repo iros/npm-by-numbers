@@ -2,6 +2,7 @@ define(function(require) {
   var $ = require('jquery');
   var Backbone = require('backbone');
   var d3 = require('d3');
+  var when = require('when');
 
   var LayoutMath = require('src/modules/services/math');
   var DataModeler = require('src/modules/services/datamodeler');
@@ -10,7 +11,7 @@ define(function(require) {
   require('src/modules/services/waffle-chart');
 
   // get data!
-  var getStats = $.ajax('data/stats_reduced.json');
+  var getStats = $.ajax('/data/stats_reduced.json');
 
   // var defaultBreakdown = 'versions';
 
@@ -24,6 +25,7 @@ define(function(require) {
       self.data = {};
       self.dataModeler = null;
       self.waffleChart = null;
+      self.dataFetched = when.defer();
 
       $.when(getStats).then(function(stats) {
         self.data.stats = stats;
@@ -63,18 +65,27 @@ define(function(require) {
     // reacts to grid change
     updateGrid: function(breakdown) {
       var self = this;
+      self._updateWaffleChart(breakdown);
+      self._updateHeader(breakdown);
+    },
 
-      self.dataModeler.setBreakdown(breakdown);
-      var dims = self._computeGridForBreakdown(breakdown);
-      self.waffleChart.dimensions(dims);
-      self.waffleChart.draw(self.dataModeler.dots);
+    _updateHeader: function(breakdown) {
+
+    },
+
+    _updateWaffleChart: function(breakdown) {
+      var self = this;
+
+      self.dataFetched.promise.then(function() {
+        self.dataModeler.setBreakdown(breakdown);
+        var dims = self._computeGridForBreakdown(breakdown);
+        self.waffleChart.dimensions(dims);
+        self.waffleChart.draw(self.dataModeler.dots);
+      });
     },
 
     afterRender: function() {
       var self = this;
-
-      // self.$el.attr('xmlns', 'http://www.w3.org/2000/svg');
-      // self.$el.attr('xmlns:xlink', 'http://www.w3.org/1999/xlink');
 
       self.dims = {
         width: this.$el.parent().width(),
@@ -87,10 +98,11 @@ define(function(require) {
       this.svg.attr('height', self.dims.height);
 
       this.on('data-fetched', function() {
+
+        self.dataFetched.resolve();
         self.dataModeler = new DataModeler(self.data.stats);
 
         var dims = self._computeGridForBreakdown();
-        //console.log(d.dots, dims);
 
         self.waffleChart = self.svg
           .chart('waffleChart', { dims: dims });
