@@ -19,7 +19,7 @@ define(function(require) {
 
       var self = this;
 
-      self.$el.find('.category').fadeOut(function() {
+      self.$el.find('.category').stop().fadeOut(function() {
 
         self.$el.html(controlTemplate({
           data : self.data,

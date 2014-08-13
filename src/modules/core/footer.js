@@ -30,7 +30,7 @@ define(function(require) {
       this.$el.html(require('tmpl!src/modules/templates/footer-controls')());
 
       // render default
-      this.questionsView = new QuestionsView();
+      this.questionsView = new QuestionsView({ breakdown: breakdown });
       this.insertView('.questions ul', this.questionsView).render();
 
       if (breakdown) {

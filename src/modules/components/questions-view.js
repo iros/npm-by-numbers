@@ -15,14 +15,26 @@ define(function(require) {
       'click li a' : 'questionClick'
     },
 
-    initialize: function() {
-
+    initialize: function(options) {
+      this.breakdown = options.breakdown;
     },
 
     // when someone tells us to update the questions, change to the
-    // appropriate type
-    questionChange: function(type) {
-      this.$el.html(questionTemplates[type]());
+    // appropriate breakdown
+    questionChange: function(breakdown) {
+
+      var self = this;
+
+      if (self.breakdown !== breakdown) {
+        self.$el.fadeOut(function() {
+
+          self.breakdown = breakdown;
+          self.$el.html(questionTemplates[breakdown]());
+          self.$el.fadeIn();
+
+        });
+      }
+
     },
 
     questionClick: function(ev) {

@@ -63,7 +63,7 @@ define(function(require) {
 
         insert: function() {
           return this.append('circle')
-            .attr('r', self.dims.radius - 2); // some spaceage.
+            .attr('r', 0);
         },
 
         events: {
@@ -91,6 +91,7 @@ define(function(require) {
               selection.transition()
                 .delay(i * 1)
                 .attr({
+                  r: self.dims.radius - 2, // some spaceage between circles
                   cx : x,
                   cy : y
                 });
