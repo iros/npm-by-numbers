@@ -9,8 +9,6 @@ define(function(require) {
   // get our chart.
   require('src/modules/services/waffle-chart');
 
-  // var defaultBreakdown = 'versions';
-
   return Backbone.View.extend({
 
     tagName: "div",
@@ -69,19 +67,35 @@ define(function(require) {
       }
     },
 
-    // reacts to grid change
+    /**
+     * Updates the grid when a breakdown changes
+     * @param  {String} breakdown Name of breakdown: versions, ages or dependents
+     */
     updateGrid: function(breakdown) {
       var self = this;
       self.breakdown = breakdown;
 
       self.dataModeler.setBreakdown(breakdown);
+
       self.gridDims = self._computeGridForBreakdown(breakdown);
-      self.waffleChart.dimensions(self.gridDims);
-      self.waffleChart.draw(self.dataModeler.dots);
+
+      self.waffleChart
+        .dimensions(self.gridDims)
+        .draw(self.dataModeler.dots);
     },
+
+    highlightProperties: function(highlightProperties) {
+
+      this.waffleChart
+        .highlight(highlightProperties);
+
+      this.waffleChart.draw(this.dataModeler.dots);
+    },
+
 
     afterRender: function() {
       var self = this;
+      window.vis = self;
 
       // first time activities:
       // * set the svg dimensions based on parents
@@ -98,16 +112,17 @@ define(function(require) {
       this.svg.attr('width', self.dims.width);
       this.svg.attr('height', self.dims.height);
 
-
       self.dataModeler = new DataModeler(self.data);
+      var reverseQuestionDict = self.dataModeler.reverseQuestionDictionary();
 
       self.gridDims = self._computeGridForBreakdown();
 
       self.waffleChart = self.svg
-        .chart('waffleChart', { dims: self.gridDims });
+        .chart('waffleChart', { dims: self.gridDims })
+        .highlightDictionary(self.data.question_order, reverseQuestionDict);
+
 
       self.waffleChart.draw(self.dataModeler.dots);
-
     }
   });
 });

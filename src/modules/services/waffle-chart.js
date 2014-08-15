@@ -4,6 +4,15 @@ define(function(require) {
 
   require('d3Chart');
 
+  // color brewer colors (light to dark.)
+  // "#f7fbff","#deebf7","#c6dbef","#9ecae1","#6baed6","#4292c6","#2171b5","#084594"
+  // highlightProperties: ['#084594', "#2171b5", '#4292c6', "#6baed6", '#9ecae1'] // dark to light.
+  // highlightProperties: ["#7fcdbb", "#41b6c4", "#1d91c0", "#225ea8", "#253494"].reverse()
+  var colors = {
+    regular: '#B6E3FA',
+    highlightProperties: ["#c7e9b4", "#7fcdbb", "#41b6c4", "#1d91c0", "#225ea8"] //.reverse()
+  };
+
   d3.chart('waffleChart', {
 
     transform: function(data) {
@@ -33,6 +42,58 @@ define(function(require) {
       } else {
         return self.dims;
       }
+
+      return this;
+    },
+
+    /**
+     * Sets the possible highlights for various breakdowns.
+     * @param  {Objet} dictionary available breakdowns
+     * @param {Object} lookupTable A lookup table between categories and their question names.
+    * @return {[Object]}            Dictionary
+     */
+    highlightDictionary: function(dictionary, lookupTable) {
+      if (arguments.length) {
+        this.dictionary = dictionary;
+        this.dictLookupTable=lookupTable;
+      } else {
+        return this.dictionary;
+      }
+      return this;
+    },
+
+    /**
+     * Sets the property to highlight circles by
+     * @param  {Array} highlightProperties Any property we can color by
+     * @return {[String]}                 The current property we're highlighting by
+     */
+    highlight: function(highlightProperties) {
+      var self = this;
+
+      if (arguments.length) {
+        self.highlightBy = highlightProperties;
+      } else {
+        return self.highlightBy;
+      }
+
+      return this;
+    },
+
+    /**
+     * Determines the breakdown we're looking at
+     * @param  {String} breakdown name of breakdown
+     * @return {[String]}           current breakdown name
+     */
+    breakdown: function(breakdown) {
+      var self = this;
+
+      if (arguments.length) {
+        self._breakdown = breakdown;
+      } else {
+        return self._breakdown;
+      }
+
+      return this;
     },
 
     /**
@@ -50,6 +111,10 @@ define(function(require) {
 
       self.dimensions(options.dims);
 
+      self.highlightBy = [];
+
+      self._breakdown = 'total'; // current grid breakdown;
+
       self.bases = {
         dots : self.base.append('g')
         .classed('dots', true)
@@ -63,11 +128,16 @@ define(function(require) {
 
         insert: function() {
           return this.append('circle')
-            .attr('r', 0);
+            .attr('r', 0)
+            .attr('stroke', '#B0C6CC')
+            .attr('fill', colors.lightblue);
         },
 
         events: {
           merge: function() {
+            var chart = this.chart();
+            var total = chart.data.length;
+
             this.each(function(d, i) {
               var selection = d3.select(this);
               var idx = self.gridCounts[d.breakdown];
@@ -85,26 +155,68 @@ define(function(require) {
                 });
               }
 
+              selection.attr('idx', i);
+              var attrs = {};
+
+              // determine fill color by highlight. if we have highlighting
+              // attributes, iterate over them until you find the first one
+              // and set the color based on that. If it wasn't found or if
+              // we aren't highlighting anything, then just color by default color
+              if (chart.highlightBy.length > 0) {
+                var found = false;
+
+                for(var m = 0; m < chart.highlightBy.length; m++) {
+
+                  if (d[chart.highlightBy[m]] === 1) {
+
+                    // which category does this belong to?
+                    var cat = self.dictLookupTable[chart.highlightBy[m]];
+                    var catOptions = self.dictionary[cat];
+
+                    // find position in highlight dictionary
+                    var catidx = catOptions.indexOf(chart.highlightBy[m]);
+                    attrs.fill = colors.highlightProperties[catidx];
+                    found = true;
+                  }
+                }
+
+                if (!found) {
+                  attrs.fill = colors.regular;
+                }
+              } else {
+                attrs.fill = colors.regular;
+              }
+
+              // only reposition if we are switching breakdowns. Otherwise
+              // we are probably only coloring, so we want to keep those
+              // circles in place.
+              if (d.category !== chart._breakdown) {
+                attrs.cx = x;
+                attrs.cy = y;
+                attrs.r = self.dims.radius - 2; // some spaceage between circles
+              }
+
               selection.transition()
                 .delay(i * 1)
-                .attr({
-                  r: self.dims.radius - 2, // some spaceage between circles
-                  cx : x,
-                  cy : y
-                });
+                .attr(attrs);
 
               self.gridCounts[d.breakdown]++;
+
+              // If this is our last circle, save the current breakdown
+              // for future use.
+              if (i+1 === total) {
+                chart._breakdown = d.category;
+              }
             });
 
             self._first = false;
           },
 
           enter: function() {
-
+            this.attr('fill', colors.regular);
           },
 
           update: function() {
-
           },
 
           exit: function() {
