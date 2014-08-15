@@ -12,6 +12,7 @@
   "eqnull": true,
   "browser": true,
   "devel": true,
+  "loopfunc": true,
   "globals": {
     "define": true,
     "require": true
