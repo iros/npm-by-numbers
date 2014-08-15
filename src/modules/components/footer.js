@@ -26,18 +26,25 @@ define(function(require) {
 
     renderQuestions: function(breakdown) {
 
+      var self = this;
+
       // replace footer with controls footer
-      this.$el.html(require('tmpl!src/modules/templates/footer-controls')());
+      self.$el.html(require('tmpl!src/modules/templates/footer-controls')());
 
       // render default
-      this.questionsView = new QuestionsView({ breakdown: breakdown });
-      this.insertView('.questions ul', this.questionsView).render();
+      self.questionsView = new QuestionsView({ breakdown: breakdown });
+
+      self.questionsView.on('question-switch', function(q) {
+        self.trigger('question-switch', q);
+      });
+
+      self.insertView('.questions ul', self.questionsView).render();
 
       if (breakdown) {
-        this.updateQuestions(breakdown);
+        self.updateQuestions(breakdown);
       }
 
-      this.questionsRendered = true;
+      self.questionsRendered = true;
     },
 
     onStart: function(ev) {

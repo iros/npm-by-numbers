@@ -5,27 +5,32 @@ define(function(require) {
   Layout.configure({ manage: true });
 
   var TopbarView = require('src/modules/components/topbar');
-  var FooterView = require("src/modules/components/footer");
   var VisView = require('src/modules/components/vis');
+  var QuestionBreakdownView = require('src/modules/components/question-breakdown');
+  var FooterView = require("src/modules/components/footer");
 
   // Use main layout and set Views.
 
   var topbarView = new TopbarView();
   var footerView = new FooterView();
   var visView = new VisView();
+  var questionBreakdownView = new QuestionBreakdownView();
 
   var MainLayout = Layout.extend({
     el: "#main",
     template: require("tmpl!src/modules/layouts/main"),
     views: {
       '#topbar': topbarView,
+      '#vis' : visView,
+      '#question-breakdown': questionBreakdownView,
       '#bottombar' : footerView,
-      '#vis' : visView
+
     },
 
     setData: function(data) {
       topbarView.setData(data);
       visView.setData(data);
+      questionBreakdownView.setData(data);
       footerView.setData(data);
     },
 
@@ -48,6 +53,10 @@ define(function(require) {
   // breakdown/versions, breakdown/age, breakdown/dependencies
   footerView.on('navigate', function(path) {
     layout.trigger('navigate', path);
+  });
+
+  footerView.on('question-switch', function(question) {
+    questionBreakdownView.toggle();
   });
 
   var layout = new MainLayout();
