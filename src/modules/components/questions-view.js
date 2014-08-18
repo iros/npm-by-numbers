@@ -37,6 +37,13 @@ define(function(require) {
 
     },
 
+    /**
+     * what happens when a user clicks on a question?
+     * Mark that question link as seleted and trigger the question switch
+     * event, that will go up the chain to the footer parent view.
+     * @param  {[type]} ev [description]
+     * @return {[type]}    [description]
+     */
     questionClick: function(ev) {
       ev.stopPropagation();
       ev.preventDefault();

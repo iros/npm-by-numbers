@@ -51,6 +51,8 @@ define(function(require) {
 
     updateBreakdown: function(breakdown) {
 
+      this.breakdown = breakdown;
+
       // update footer
       if (!footerView.areQuestionsRendered() ||
           footerView.getBreakdown() !== breakdown) {
@@ -74,8 +76,10 @@ define(function(require) {
     layout.trigger('navigate', path);
   });
 
+  // when a user switches a question, clear the current highlights and
+  // navigate away
   footerView.on('question-switch', function(breakdown, question) {
-    visView.highlightProperties([]);
+    if (questionBreakdownView.getQuestion() !== question) { visView.highlightProperties([]); }
     layout.trigger('navigate', 'breakdown/' + breakdown + '/question/' + question); // navigate
   });
 

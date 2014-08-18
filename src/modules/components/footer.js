@@ -54,6 +54,7 @@ define(function(require) {
       // render default
       self.questionsView = new QuestionsView({ breakdown: breakdown });
 
+      // if a user switches to a new question, just pass it up to the layout
       self.questionsView.on('question-switch', function(q) {
         self.trigger('question-switch', breakdown, q); // pass it on
       });

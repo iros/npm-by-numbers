@@ -72,6 +72,14 @@ define(function(require) {
     },
 
     /**
+     * Returns current question
+     * @return {String} current question
+     */
+    getQuestion: function() {
+      return this.question;
+    },
+
+    /**
      * Updates the bar to the correct question.
      * @param {[type]} question [description]
      */
