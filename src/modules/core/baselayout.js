@@ -37,7 +37,8 @@ define(function(require) {
     updateBreakdown: function(breakdown) {
 
       // update footer
-      if (!footerView.areQuestionsRendered()) {
+      if (!footerView.areQuestionsRendered() ||
+          footerView.getBreakdown() !== breakdown) {
         footerView.renderQuestions(breakdown);
       }
 

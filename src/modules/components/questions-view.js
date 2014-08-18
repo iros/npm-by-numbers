@@ -10,13 +10,13 @@ define(function(require) {
 
 
   return Backbone.View.extend({
-    template : questionTemplates.versions,
     events: {
       'click li a' : 'questionClick'
     },
 
     initialize: function(options) {
       this.breakdown = options.breakdown;
+      this.template = questionTemplates[options.breakdown || 'versions'];
     },
 
     // when someone tells us to update the questions, change to the

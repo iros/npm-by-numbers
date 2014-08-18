@@ -24,6 +24,10 @@ define(function(require) {
       return this.questionsRendered;
     },
 
+    getBreakdown: function() {
+      return this.breakdown;
+    },
+
     renderQuestions: function(breakdown) {
 
       var self = this;
@@ -45,6 +49,7 @@ define(function(require) {
       }
 
       self.questionsRendered = true;
+      self.breakdown = breakdown;
     },
 
     onStart: function(ev) {
