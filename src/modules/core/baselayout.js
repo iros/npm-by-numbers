@@ -46,6 +46,9 @@ define(function(require) {
 
       // update the categories at the top
       topbarView.updateGrid(breakdown, visView.getDimensions());
+
+      // update the breakdown in a question breakdown view
+      questionBreakdownView.setBreakdown(breakdown);
     }
   });
 
@@ -56,7 +59,12 @@ define(function(require) {
   });
 
   footerView.on('question-switch', function(question) {
-    questionBreakdownView.toggle();
+    visView.highlightProperties([]);
+    questionBreakdownView.setQuestion(question);
+  });
+
+  questionBreakdownView.on('highlight-subset', function(subset) {
+    visView.highlightProperties(subset);
   });
 
   var layout = new MainLayout();

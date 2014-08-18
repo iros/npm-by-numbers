@@ -1,10 +1,60 @@
+$bargraph_height = 6px;
+
 #question-breakdown {
   width: 100%
   height: $bottombar_question_height;
   position: absolute;
-  bottom: $bottombar_height - $bottombar_question_height;;
+  bottom: $bottombar_height - $bottombar_question_height;
   background-color: white;
   left: 0;
   right: 0;
   border-top: 1px solid $border_color;
+
+  .breakdown {
+    position: absolute;
+    border-left: 1px solid $border_color;
+    cursor: pointer;
+    height: 100%;
+
+    .barcontainer {
+      position: relative;
+      width: 100%;
+      height: $bargraph_height;
+      border-bottom: 1px solid $border_color_light;
+
+      .bargraph {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: $bargraph_height - 1;
+      }
+    }
+
+    .breakdown-details {
+      padding: 7px;
+      font-size: 0.8em;
+    }
+
+    .close {
+      display: none;
+    }
+  }
+
+  .breakdown.selected {
+    color: $data_medblue;
+    background-color: #EDEDED;
+
+    .close {
+      display: inline;
+      position: absolute;
+      top: $bargraph_height + 3;
+      right: $bargraph_height + 3;
+    }
+  }
+
+  .breakdown:hover {
+    background-color: #EDEDED;
+  }
+
+
 }

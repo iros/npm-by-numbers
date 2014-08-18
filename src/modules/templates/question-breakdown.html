@@ -1,2 +1,24 @@
 <div>
+  <% if ((typeof obj.data !== "undefined")) {
+    for(var i = 0; i < obj.data.points.length; i++) {
+      var p = obj.data.points[i]; %>
+      <div class="breakdown" data-questionSubset="<%= p.questionSubset %>" style="left:<%= p.offset %>px; width:<%= p.width %>px">
+
+        <div class="barcontainer">
+          <div class="bargraph" style="width: <%= p.barwidth %>px; background-color: <%= p.color %>"></div>
+        </div>
+
+        <div class="breakdown-details">
+          <div class="symboldefault" style="background-color: <%= p.color %>"></div> <%= p.name %>
+          <div class="subtext">(<%= p.value %>, <%= p.percentage %> of total)</div>
+        </div>
+
+        <div class="close subtext">
+          x
+        </div>
+      </div>
+    <% } %>
+  <% } else { %>
+    nopoints
+  <% } %>
 </div>

@@ -36,12 +36,16 @@ h1 {
   margin: 0;
 }
 
-.symbol {
+.symboldefault {
   display: inline-block;
   border-radius: 50%;
   width: 10px;
   height: 10px;
-  background-color: $data_lightblue
+}
+
+.symbol {
+  background-color: $data_lightblue;
+  @extend .symboldefault
 }
 
 .subtext {
