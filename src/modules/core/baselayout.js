@@ -34,6 +34,21 @@ define(function(require) {
       footerView.setData(data);
     },
 
+    updateQuestion: function(question, highlights, clear) {
+      // clear highlight
+      if (clear) {
+        visView.highlightProperties([]);
+      }
+      // set question
+      if (question) {
+        questionBreakdownView.setQuestion(question);
+      }
+      // highlight breakdown
+      if (highlights) {
+        visView.highlightProperties(highlights);
+      }
+    },
+
     updateBreakdown: function(breakdown) {
 
       // update footer
@@ -59,13 +74,13 @@ define(function(require) {
     layout.trigger('navigate', path);
   });
 
-  footerView.on('question-switch', function(question) {
+  footerView.on('question-switch', function(breakdown, question) {
     visView.highlightProperties([]);
-    questionBreakdownView.setQuestion(question);
+    layout.trigger('navigate', 'breakdown/' + breakdown + '/question/' + question); // navigate
   });
 
   questionBreakdownView.on('highlight-subset', function(subset) {
-    visView.highlightProperties(subset);
+    layout.updateQuestion(null, subset, false);
   });
 
   var layout = new MainLayout();

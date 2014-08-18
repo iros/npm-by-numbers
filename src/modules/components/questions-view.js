@@ -21,7 +21,7 @@ define(function(require) {
 
     // when someone tells us to update the questions, change to the
     // appropriate breakdown
-    questionChange: function(breakdown) {
+    updateBreakdown: function(breakdown) {
 
       var self = this;
 
@@ -41,7 +41,12 @@ define(function(require) {
       ev.stopPropagation();
       ev.preventDefault();
       var target = $(ev.target);
-      var q = target.attr('class');
+      var q = target.data('question');
+      target.addClass('selected');
+      if (this.current) {
+        this.current.removeClass('selected');
+      }
+      this.current = target;
       this.trigger('question-switch', q);
       console.log(q);
       return false;

@@ -5,7 +5,8 @@ module.exports = function(grunt) {
   // this will most likely be done with Nginx/Apache rewrites.
   var root = '/index.html';
   function rewriteRoute(req, res, next) {
-    if (/^\/(?:breakdown\/[^\/]+)$/.test(req.url)) {
+    if (/^\/(?:breakdown\/[^\/]+)$/.test(req.url) ||
+        /^\/(?:breakdown\/[A-Za-z+\/]+)$/.test(req.url)) {
       grunt.log.debug('PUSHSTATE ' + req.url + ' -> ' + root);
       req.url = root;
     }

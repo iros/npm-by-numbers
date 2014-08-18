@@ -16,18 +16,34 @@ define(function(require) {
       this.questionsRendered = false;
     },
 
+    /**
+     * Saves data
+     * @param {Object} data Data
+     */
     setData: function(data) {
       this.data = data;
     },
 
+    /**
+     * Returns true if questions are rendered. false otherwise.
+     * @return {Boolean} true if rendered, false otherwise.
+     */
     areQuestionsRendered: function() {
       return this.questionsRendered;
     },
 
+    /**
+     * Returns current breakdown (versions, age, or dependents)
+     * @return {String} current breakdown
+     */
     getBreakdown: function() {
       return this.breakdown;
     },
 
+    /**
+     * Renders questions for appropriate breakdown
+     * @param  {String} breakdown breakdown name
+     */
     renderQuestions: function(breakdown) {
 
       var self = this;
@@ -39,13 +55,13 @@ define(function(require) {
       self.questionsView = new QuestionsView({ breakdown: breakdown });
 
       self.questionsView.on('question-switch', function(q) {
-        self.trigger('question-switch', q);
+        self.trigger('question-switch', breakdown, q); // pass it on
       });
 
       self.insertView('.questions ul', self.questionsView).render();
 
       if (breakdown) {
-        self.updateQuestions(breakdown);
+        self.updateBreakdown(breakdown);
       }
 
       self.questionsRendered = true;
@@ -64,7 +80,7 @@ define(function(require) {
       return false;
     },
 
-    updateQuestions: function(breakdown) {
+    updateBreakdown: function(breakdown) {
 
       // remove selected from current
       var current = this.$el.find('li.selected');
@@ -75,7 +91,7 @@ define(function(require) {
       newselected.addClass('selected');
 
       // update questions
-      this.questionsView.questionChange(breakdown);
+      this.questionsView.updateBreakdown(breakdown);
 
       return breakdown;
     },
@@ -84,7 +100,7 @@ define(function(require) {
 
       var breakdown = $(ev.target).data('grid');
 
-      this.updateQuestions(breakdown);
+      this.updateBreakdown(breakdown);
 
       // trigger breakdown update
       this.trigger('navigate', 'breakdown/' + breakdown);

@@ -12,7 +12,8 @@ define(function(require) {
 
     routes: {
       "": "index",
-      "breakdown/:breakdown": "breakdown"
+      "breakdown/:breakdown": "breakdown",
+      "breakdown/:breakdown/question/:question": "question"
     },
 
     initialize: function() {
@@ -50,6 +51,13 @@ define(function(require) {
     breakdown: function(breakdown) {
       this.ready.then(function() {
         layout.updateBreakdown(breakdown);
+      });
+    },
+
+    question: function(breakdown, question) {
+      this.ready.then(function() {
+        layout.updateBreakdown(breakdown);
+        layout.updateQuestion(question);
       });
     }
 
