@@ -94,8 +94,16 @@ define(function(require) {
   // when a user switches a question, clear the current highlights and
   // navigate away
   footerView.on('question-switch', function(breakdown, question) {
-    if (questionBreakdownView.getQuestion() !== question) { visView.highlightProperties([]); }
-    layout.trigger('navigate', 'breakdown/' + breakdown + '/question/' + question); // navigate
+    if (questionBreakdownView.getQuestion() !== question) {
+      visView.highlightProperties([]);
+      layout.trigger('navigate', 'breakdown/' + breakdown + '/question/' + question); // navigate
+    } else {
+      // same question, so, just clear it
+      visView.highlightProperties([]);
+      questionBreakdownView.setQuestion(question);
+      layout.trigger('navigate', 'breakdown/' + breakdown); // navigate
+    }
+
   });
 
   questionBreakdownView.on('highlight-subset', function(subset) {

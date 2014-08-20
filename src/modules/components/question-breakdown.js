@@ -8,7 +8,7 @@ define(function(require) {
     template: require('tmpl!src/modules/templates/question-breakdown'),
 
     events: {
-      'click' : 'onBreakdownSelect'
+      'click' : 'onQuestionBreakdownSelect'
     },
 
     initialize: function() {
@@ -34,7 +34,7 @@ define(function(require) {
         .domain([0, this.data.total]);
     },
 
-    onBreakdownSelect: function(ev) {
+    onQuestionBreakdownSelect: function(ev) {
       var target = $(ev.target).closest('.breakdown');
       var questionSubset = target.data('questionsubset');
 
@@ -94,7 +94,6 @@ define(function(require) {
         // Is this an ordered question?
         var questionOrder = this.data.question_order[this.question];
         if (typeof questionOrder !== "undefined") {
-
 
           if (!this.isOpen) {
             this.show();
