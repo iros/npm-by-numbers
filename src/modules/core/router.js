@@ -51,6 +51,7 @@ define(function(require) {
     breakdown: function(breakdown) {
       this.ready.then(function() {
         layout.updateBreakdown(breakdown);
+        layout.updateChart();
       });
     },
 
@@ -58,6 +59,7 @@ define(function(require) {
       this.ready.then(function() {
         layout.updateBreakdown(breakdown);
         layout.updateQuestion(question);
+        layout.updateChart();
       });
     }
 

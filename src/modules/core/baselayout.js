@@ -28,6 +28,7 @@ define(function(require) {
     },
 
     setData: function(data) {
+      this.data = data;
       topbarView.setData(data);
       visView.setData(data);
       questionBreakdownView.setData(data);
@@ -47,26 +48,40 @@ define(function(require) {
       if (highlights) {
         visView.highlightProperties(highlights);
       }
+
+      // if this is just a single highlight
+      if (question && this.data.questions_no_order.indexOf(question) > -1) {
+        visView.highlightProperties([question]);
+      }
     },
 
-    updateBreakdown: function(breakdown) {
+    updateChart: function() {
+      visView.updateChart();
+    },
+
+    updateBreakdown: function(breakdown, question) {
 
       this.breakdown = breakdown;
 
-      // update footer
+      // update the waffle chart
+      if (question) {
+        visView.updateGrid(breakdown, question);
+      } else {
+        visView.updateGrid(breakdown);
+      }
+
+      // update footer, top and questions view if
+      // if questions aren't rendered or the breakdown changed
       if (!footerView.areQuestionsRendered() ||
           footerView.getBreakdown() !== breakdown) {
         footerView.renderQuestions(breakdown);
+
+        // update the categories at the top only if breakdown changed
+        topbarView.updateGrid(breakdown, visView.getDimensions());
+
+        // update the breakdown in a question breakdown view
+        questionBreakdownView.setBreakdown(breakdown);
       }
-
-      // update the waffle chart
-      visView.updateGrid(breakdown);
-
-      // update the categories at the top
-      topbarView.updateGrid(breakdown, visView.getDimensions());
-
-      // update the breakdown in a question breakdown view
-      questionBreakdownView.setBreakdown(breakdown);
     }
   });
 
@@ -85,6 +100,7 @@ define(function(require) {
 
   questionBreakdownView.on('highlight-subset', function(subset) {
     layout.updateQuestion(null, subset, false);
+    layout.updateChart();
   });
 
   var layout = new MainLayout();

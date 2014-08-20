@@ -70,8 +70,9 @@ define(function(require) {
     /**
      * Updates the grid when a breakdown changes
      * @param  {String} breakdown Name of breakdown: versions, ages or dependents
+     * @param {[String]} highlightProperties Optional names of properties to highlight.
      */
-    updateGrid: function(breakdown) {
+    updateGrid: function(breakdown, highlightProperties) {
       var self = this;
       self.breakdown = breakdown;
 
@@ -80,8 +81,13 @@ define(function(require) {
       self.gridDims = self._computeGridForBreakdown(breakdown);
 
       self.waffleChart
-        .dimensions(self.gridDims)
-        .draw(self.dataModeler.dots);
+        .dimensions(self.gridDims);
+
+      if (highlightProperties) {
+        self.waffleChart.highlight(highlightProperties);
+      }
+
+      // self.waffleChart.draw(self.dataModeler.dots);
     },
 
     highlightProperties: function(highlightProperties) {
@@ -89,9 +95,12 @@ define(function(require) {
       this.waffleChart
         .highlight(highlightProperties);
 
-      this.waffleChart.draw(this.dataModeler.dots);
+      // this.waffleChart.draw(this.dataModeler.dots);
     },
 
+    updateChart: function() {
+      this.waffleChart.draw(this.dataModeler.dots);
+    },
 
     afterRender: function() {
       var self = this;
