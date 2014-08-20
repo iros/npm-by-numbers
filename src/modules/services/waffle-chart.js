@@ -164,10 +164,16 @@ define(function(require) {
 
                     // which category does this belong to?
                     var cat = self.dictLookupTable[chart.highlightBy[m]];
-                    var catOptions = self.dictionary[cat];
+                    var catidx;
+                    if (cat) {
+                      var catOptions = self.dictionary[cat];
 
-                    // find position in highlight dictionary
-                    var catidx = catOptions.indexOf(chart.highlightBy[m]);
+                      // find position in highlight dictionary
+                      catidx = catOptions.indexOf(chart.highlightBy[m]);
+                    } else {
+                      catidx = Math.floor(colors.highlightProperties.length / 2);
+                    }
+
                     attrs.fill = colors.highlightProperties[catidx];
                     found = true;
                   }

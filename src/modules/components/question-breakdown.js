@@ -87,15 +87,18 @@ define(function(require) {
 
       // open if closed or new question
       if (!this.isOpen || question !== this.question) {
-        if (!this.isOpen) {
-          this.show();
-        }
+
         this.question = question;
         this.selectedSubsets = [];
 
         // Is this an ordered question?
         var questionOrder = this.data.question_order[this.question];
         if (typeof questionOrder !== "undefined") {
+
+
+          if (!this.isOpen) {
+            this.show();
+          }
 
           // get the breakdowns we are looking at
           var offset = 0;
@@ -128,6 +131,9 @@ define(function(require) {
 
           this.$el.html(this.template({ data : { points : templateData }}));
 
+        } else {
+          // this is not an ordered question, that just has a single breakdown.
+          this.hide();
         }
 
       } else {
