@@ -2,16 +2,18 @@ define(function(require) {
 
   var Backbone = require('backbone');
   var d3 = require('d3');
+  var $ = require('jquery');
 
   var LayoutMath = require('src/modules/services/layoutmath');
   var DataModeler = require('src/modules/services/datamodeler');
+  var VisTopBar = require('src/modules/components/vis-topbar');
 
   // get our chart.
   require('src/modules/services/waffle-chart');
 
   return Backbone.View.extend({
 
-    tagName: "div",
+    template: require('tmpl!src/modules/templates/vis'),
 
     initialize: function() {
       var self = this;
@@ -21,7 +23,57 @@ define(function(require) {
       self.gridDims = null;
       self.breakdown = null;
 
+      self.firstSwitch = true;
+
       self.on('grid-switch', self.updateGrid);
+    },
+
+    afterRender: function() {
+      var self = this;
+      window.vis = self;
+
+      self.$el = $('section#vis');
+      self.el = this.$el[0];
+      self.$el.html(this.template());
+
+      // first time activities:
+      // * set the svg dimensions based on parents
+      // * create a data modeler to build our data into something meaningful.
+      // * render starting waffle chart
+
+      self.dims = {
+        width: this.$el.width(),
+        height: this.$el.height() - 50 // top vis bar
+      };
+
+      self.bases = {
+        waffle: d3.select('#waffle'),
+        visTopbar: d3.select("#vis-topbar")
+      };
+
+      // make chart container:
+      self.svg = this.bases.waffle.append('svg');
+
+      this.svg.attr('width', self.dims.width);
+      this.svg.attr('height', self.dims.height);
+
+      // get data modeler
+      self.dataModeler = new DataModeler(self.data);
+      var reverseQuestionDict = self.dataModeler.reverseQuestionDictionary();
+
+      self.gridDims = self._computeGridForBreakdown();
+
+      // create waffle chart
+      self.waffleChart = self.svg
+        .chart('waffleChart', { dims: self.gridDims })
+        .highlightDictionary(self.data.question_order, reverseQuestionDict);
+
+      // draw waffle chart
+      self.waffleChart.draw(self.dataModeler.dots);
+
+      this.visTopBar = new VisTopBar();
+      this.visTopBar.setData(self.data);
+      this.insertView('#vis-topbar', this.visTopBar).render();
     },
 
     /**
@@ -48,7 +100,7 @@ define(function(require) {
         return LayoutMath.findMultiBreakdownDims(
           this.dims.width, this.dims.height,
           this.data.dimensions[breakdown],
-          50,   //padding
+          60,   //padding
           100,   // pkgs per dot
           this.data.order[breakdown]);  // breakdwn order
 
@@ -72,22 +124,29 @@ define(function(require) {
      * @param  {String} breakdown Name of breakdown: versions, ages or dependents
      * @param {[String]} highlightProperties Optional names of properties to highlight.
      */
-    updateGrid: function(breakdown, highlightProperties) {
-      var self = this;
-      self.breakdown = breakdown;
+    setBreakdown: function(breakdown, highlightProperties) {
+      if (breakdown !== this.breakdown) {
+        this.breakdown = breakdown;
 
-      self.dataModeler.setBreakdown(breakdown);
+        this.dataModeler.setBreakdown(breakdown);
 
-      self.gridDims = self._computeGridForBreakdown(breakdown);
+        this.gridDims = this._computeGridForBreakdown(breakdown);
 
-      self.waffleChart
-        .dimensions(self.gridDims);
+        this.waffleChart
+          .dimensions(this.gridDims);
 
-      if (highlightProperties) {
-        self.waffleChart.highlight(highlightProperties);
+        if (highlightProperties) {
+          this.waffleChart.highlight(highlightProperties);
+        }
+
+        if (this.firstSwitch) {
+          // scoot vis down 50px
+          $('#waffle').animate({ top: "60px" });
+          this.firstSwitch = false;
+        }
+        this.visTopBar.show();
+        this.visTopBar.setBreakdown(breakdown, this.gridDims);
       }
-
-      // self.waffleChart.draw(self.dataModeler.dots);
     },
 
     highlightProperties: function(highlightProperties) {
@@ -102,36 +161,6 @@ define(function(require) {
       this.waffleChart.draw(this.dataModeler.dots);
     },
 
-    afterRender: function() {
-      var self = this;
-      window.vis = self;
 
-      // first time activities:
-      // * set the svg dimensions based on parents
-      // * create a data modeler to build our data into something meaningful.
-      // * render starting waffle chart
-
-      self.dims = {
-        width: this.$el.parent().width(),
-        height: this.$el.parent().height()
-      };
-
-      self.svg = d3.select(this.el).append('svg');
-
-      this.svg.attr('width', self.dims.width);
-      this.svg.attr('height', self.dims.height);
-
-      self.dataModeler = new DataModeler(self.data);
-      var reverseQuestionDict = self.dataModeler.reverseQuestionDictionary();
-
-      self.gridDims = self._computeGridForBreakdown();
-
-      self.waffleChart = self.svg
-        .chart('waffleChart', { dims: self.gridDims })
-        .highlightDictionary(self.data.question_order, reverseQuestionDict);
-
-
-      self.waffleChart.draw(self.dataModeler.dots);
-    }
   });
 });

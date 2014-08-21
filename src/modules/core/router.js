@@ -31,11 +31,10 @@ define(function(require) {
         // required views
         layout.setData(data);
 
-        // render layout
         layout.render();
 
         // notify to all routes that we are ready.
-        def.resolve();
+        def.resolve(data);
       });
 
       // navigate if we get a routing event.
@@ -45,7 +44,7 @@ define(function(require) {
     },
 
     index: function() {
-      // nothing happens here.... for now.
+
     },
 
     breakdown: function(breakdown) {

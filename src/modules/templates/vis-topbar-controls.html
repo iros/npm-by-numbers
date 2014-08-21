@@ -1,0 +1,14 @@
+<div>
+  <% data.order[breakdown].forEach(function(category, idx) { %>
+    <div class="category" style="left: <%= dims.grids[idx].offset + 5 %>px">
+      <h4><%= data.names[breakdown][idx] %></h4>
+      <div class='datapoint'>
+        <% if (dims.grids[idx].cols < 2) { %>
+          <%= d3.format('%0')(data.dimensions[breakdown][category]/data.total) %>
+        <% } else { %>
+          <%= d3.format('0,')(data.dimensions[breakdown][category]) %> (<%= d3.format('%0')(data.dimensions[breakdown][category]/data.total) %>)
+        <% } %>
+      </div>
+    </div>
+  <% }); %>
+</div>

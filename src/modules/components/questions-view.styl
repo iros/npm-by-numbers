@@ -1,5 +1,34 @@
-.questions {
-  a.selected {
-    color: $data_medblue;
+#questions {
+
+  width: $questions_width - 20;
+  position: absolute;
+  background-color: white;
+  top: $body_padding + $topbar_height;
+  left: $body_padding;
+
+  default-section();
+
+  padding: 20px;
+
+  .questions {
+    a.selected {
+      color: $data_medblue;
+    }
   }
+
+  ul {
+    list-style-type: none;
+
+    li {
+      cursor: pointer;
+      padding: 10px;
+      margin-top: 10px;
+      background-color: $background_color;
+    }
+    li:hover {
+      background-color: $background_color_hover;
+      box-shadow: inset 2px 0px 0px 0px $links_red;
+    }
+  }
+
 }

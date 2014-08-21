@@ -6,15 +6,20 @@ define(function(require) {
 
   var TopbarView = require('src/modules/components/topbar');
   var VisView = require('src/modules/components/vis');
-  var QuestionBreakdownView = require('src/modules/components/question-breakdown');
-  var FooterView = require("src/modules/components/footer");
+  var QuestionView = require('src/modules/components/questions-view');
+
+  // var QuestionBreakdownView = require('src/modules/components/question-breakdown');
+
+  // var FooterView = require("src/modules/components/footer");
 
   // Use main layout and set Views.
 
   var topbarView = new TopbarView();
-  var footerView = new FooterView();
   var visView = new VisView();
-  var questionBreakdownView = new QuestionBreakdownView();
+  var questionView = new QuestionView();
+
+  // var footerView = new FooterView();
+  // var questionBreakdownView = new QuestionBreakdownView();
 
   var MainLayout = Layout.extend({
     el: "#main",
@@ -22,17 +27,17 @@ define(function(require) {
     views: {
       '#topbar': topbarView,
       '#vis' : visView,
-      '#question-breakdown': questionBreakdownView,
-      '#bottombar' : footerView,
-
+      '#questions': questionView,
+      // '#bottombar' : footerView,
     },
 
     setData: function(data) {
       this.data = data;
       topbarView.setData(data);
       visView.setData(data);
-      questionBreakdownView.setData(data);
-      footerView.setData(data);
+      questionView.setData(data);
+      // questionBreakdownView.setData(data);
+      // footerView.setData(data);
     },
 
     updateQuestion: function(question, highlights, clear) {
@@ -42,7 +47,8 @@ define(function(require) {
       }
       // set question
       if (question) {
-        questionBreakdownView.setQuestion(question);
+        // questionBreakdownView.setQuestion(question);
+        // questionView.setQuestion(question)
       }
       // highlight breakdown
       if (highlights) {
@@ -65,51 +71,59 @@ define(function(require) {
 
       // update the waffle chart
       if (question) {
-        visView.updateGrid(breakdown, question);
+        visView.setBreakdown(breakdown, question);
       } else {
-        visView.updateGrid(breakdown);
+        visView.setBreakdown(breakdown);
       }
+
+      topbarView.setBreakdown(breakdown);
+
+      questionView.setBreakdown(breakdown);
 
       // update footer, top and questions view if
       // if questions aren't rendered or the breakdown changed
-      if (!footerView.areQuestionsRendered() ||
-          footerView.getBreakdown() !== breakdown) {
-        footerView.renderQuestions(breakdown);
+      // if (!footerView.areQuestionsRendered() ||
+      //     footerView.getBreakdown() !== breakdown) {
+      //   footerView.renderQuestions(breakdown);
 
-        // update the categories at the top only if breakdown changed
-        topbarView.updateGrid(breakdown, visView.getDimensions());
+      //   // update the categories at the top only if breakdown changed
+      //   topbarView.setBreakdown(breakdown);
 
-        // update the breakdown in a question breakdown view
-        questionBreakdownView.setBreakdown(breakdown);
-      }
+      //   // update the breakdown in a question breakdown view
+      //   // questionBreakdownView.setBreakdown(breakdown);
+      // }
     }
   });
 
   // navigate if we're switching breakdowns. Paths:
   // breakdown/versions, breakdown/age, breakdown/dependencies
-  footerView.on('navigate', function(path) {
+  topbarView.on('navigate', function(path) {
+    layout.trigger('navigate', path);
+  });
+
+  questionView.on('navigate', function(path) {
     layout.trigger('navigate', path);
   });
 
   // when a user switches a question, clear the current highlights and
   // navigate away
-  footerView.on('question-switch', function(breakdown, question) {
-    if (questionBreakdownView.getQuestion() !== question) {
-      visView.highlightProperties([]);
-      layout.trigger('navigate', 'breakdown/' + breakdown + '/question/' + question); // navigate
-    } else {
-      // same question, so, just clear it
-      visView.highlightProperties([]);
-      questionBreakdownView.setQuestion(question);
-      layout.trigger('navigate', 'breakdown/' + breakdown); // navigate
-    }
+  // footerView.on('question-switch', function(breakdown, question) {
+  //   if (questionBreakdownView.getQuestion() !== question) {
+  //     visView.highlightProperties([]);
+  //     layout.trigger('navigate', 'breakdown/' + breakdown + '/question/' + question); // navigate
+  //   } else {
+  //     // same question, so, just clear it
+  //     visView.highlightProperties([]);
+  //     questionBreakdownView.setQuestion(question);
+  //     layout.trigger('navigate', 'breakdown/' + breakdown); // navigate
+  //   }
 
-  });
+  // });
 
-  questionBreakdownView.on('highlight-subset', function(subset) {
-    layout.updateQuestion(null, subset, false);
-    layout.updateChart();
-  });
+  // questionBreakdownView.on('highlight-subset', function(subset) {
+  //   layout.updateQuestion(null, subset, false);
+  //   layout.updateChart();
+  // });
 
   var layout = new MainLayout();
   return layout;

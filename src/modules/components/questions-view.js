@@ -3,6 +3,7 @@ define(function(require) {
   var $ = require('jquery');
 
   var questionTemplates = {
+    intro: require('tmpl!src/modules/templates/questions-intro'),
     versions: require('tmpl!src/modules/templates/questions-versions'),
     age: require('tmpl!src/modules/templates/questions-age'),
     dependents: require('tmpl!src/modules/templates/questions-dependents')
@@ -10,18 +11,27 @@ define(function(require) {
 
 
   return Backbone.View.extend({
+
+    template: questionTemplates.intro,
+
     events: {
+      'click a.start': 'onStart',
       'click li a' : 'questionClick'
     },
 
     initialize: function(options) {
-      this.breakdown = options.breakdown;
-      this.template = questionTemplates[options.breakdown || 'versions'];
+      options = options || {};
+      this.breakdown = options.breakdown || 'intro';
+      this.template = questionTemplates[this.breakdown];
+    },
+
+    setData: function(data) {
+      this.data = data;
     },
 
     // when someone tells us to update the questions, change to the
     // appropriate breakdown
-    updateBreakdown: function(breakdown) {
+    setBreakdown: function(breakdown) {
 
       var self = this;
 
@@ -35,6 +45,10 @@ define(function(require) {
         });
       }
 
+    },
+
+    onStart: function() {
+      this.trigger('navigate', 'breakdown/versions');
     },
 
     /**

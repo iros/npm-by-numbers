@@ -1,0 +1,40 @@
+#vis-topbar {
+  top: 0;
+  left: 0;
+  right: 0px;
+  display:none;
+
+  height: $topbar_height;
+
+  border-bottom: 1px solid $border_color;
+  default-section();
+
+  padding-left: 0px;
+  padding-right: 0px;
+
+  .category {
+    position: absolute;
+    height: 33px;
+    overflow: hidden;
+
+    h4 {
+      font-size: 0.8em;
+      color: $links_red;
+      font-variant:small-caps;
+      margin: 0;
+      padding: 0;
+    }
+
+    .datapoint {
+      font-size: 0.7em
+      color: #222;
+    }
+  }
+
+  h3 {
+    padding-top: 0;
+    margin-top: 5px;
+    color: $links_red;
+    font-variant:small-caps;
+  }
+}
