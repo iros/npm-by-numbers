@@ -1,6 +1,7 @@
 define(function(require) {
   var Backbone = require('backbone');
   var $ = require('jquery');
+  var Accordion = require('src/modules/services/accordion');
 
   var questionTemplates = {
     intro: require('tmpl!src/modules/templates/questions-intro'),
@@ -32,19 +33,31 @@ define(function(require) {
     // when someone tells us to update the questions, change to the
     // appropriate breakdown
     setBreakdown: function(breakdown) {
-
       var self = this;
 
       if (self.breakdown !== breakdown) {
+
+        // remove current accordion from questions if one exists
+        if (self.accordion) {
+          self.accordion.destroy();
+        }
+
+        // fade out questions
         self.$el.fadeOut(function() {
 
+          // get new questions
           self.breakdown = breakdown;
           self.$el.html(questionTemplates[breakdown]());
+
+          // enable questions as accordions!
+          self.accordion = new Accordion(self.$el.find('ul'));
+          self.accordion.setData(self.data);
+
+          // and fade them in
           self.$el.fadeIn();
 
         });
       }
-
     },
 
     onStart: function() {

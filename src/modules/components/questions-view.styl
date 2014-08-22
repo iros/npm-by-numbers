@@ -20,15 +20,41 @@
     list-style-type: none;
 
     li {
-      cursor: pointer;
-      padding: 10px;
+      font-size: small;
       margin-top: 10px;
-      background-color: $background_color;
+      cursor: pointer;
+
+      .partial {
+        display: none;
+        color: $links_red;
+        font-variant:small-caps;
+        font-weight: bold;
+        background-color: $background_color;
+        padding: 10px;
+      }
+
+      .full {
+
+        .link {
+          color: $links_red;
+          font-variant:small-caps;
+          font-weight: bold;
+        }
+
+        padding: 10px;
+        background-color: $background_color;
+      }
+
+      .full:hover {
+        background-color: $background_color_hover;
+        box-shadow: inset 2px 0px 0px 0px $links_red;
+      }
+
+      .content {
+        padding-top: 10px;
+      }
     }
-    li:hover {
-      background-color: $background_color_hover;
-      box-shadow: inset 2px 0px 0px 0px $links_red;
-    }
+
   }
 
 }
