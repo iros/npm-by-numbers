@@ -11,7 +11,10 @@ define(function(require) {
       'click' : 'onQuestionBreakdownSelect'
     },
 
-    initialize: function() {
+    initialize: function(options) {
+
+      options = options || {};
+
       this.data = null;
       this.isOpen = false;
       this.question = null;
@@ -20,18 +23,27 @@ define(function(require) {
 
       this.pFormat = d3.format('0.1%');
       this.cFormat = d3.format('0,');
+
+      if (options.question) {
+        this.question = options.question;
+      }
     },
 
     afterRender: function() {
-      this.bottomPos = {
-        open: $('#bottombar').height() + 20, // default section padding, shared.styl.
-        closed: $('#bottombar').height() - $('#question-breakdown').height()
-      };
+      // this.bottomPos = {
+      //   open: $('#bottombar').height() + 20, // default section padding, shared.styl.
+      //   closed: $('#bottombar').height() - $('#question-breakdown').height()
+      // };
 
       // create a width scale that we'll use to setup our data.
       this.scale = d3.scale.linear()
         .range([0, this.$el.width()])
         .domain([0, this.data.total]);
+
+        // if we got a question during initialization, do the thing.
+        if (this.question) {
+          this.setQuestion(this.question);
+        }
     },
 
     onQuestionBreakdownSelect: function(ev) {
@@ -95,14 +107,14 @@ define(function(require) {
         var questionOrder = this.data.question_order[this.question];
         if (typeof questionOrder !== "undefined") {
 
-          if (!this.isOpen) {
-            this.show();
-          }
+          // if (!this.isOpen) {
+          //   this.show();
+          // }
 
           // get the breakdowns we are looking at
           var offset = 0;
           var templateData = [];
-          var width = Math.floor(this.$el.width() / questionOrder.length);
+          var width = this.$el.width() - 16; // full length of container - padding
 
           // update scale to have the max of our single breakdown width
           this.scale.range([0, width]);
@@ -128,63 +140,67 @@ define(function(require) {
             offset += width;
           }
 
+          this.$el.css('display', 'none');
           this.$el.html(this.template({ data : { points : templateData }}));
+          this.$el.slideDown();
 
-        } else {
-          // this is not an ordered question, that just has a single breakdown.
-          this.hide();
         }
-
-      } else {
-
-        if (question === this.question) {
-          // same question, so just close the bar & reset question
-          this.hide();
-          this.question = null;
-        }
+        // else {
+        //   // this is not an ordered question, that just has a single breakdown.
+        //   this.hide();
+        // }
 
       }
+      // else {
+
+      //   if (question === this.question) {
+      //     // same question, so just close the bar & reset question
+      //     this.hide();
+      //     this.question = null;
+      //   }
+
+      // }
 
       return this;
     },
 
-    /**
-     * Toggles visibility of bar
-     * @return {Self} itself.
-     */
-    toggle: function(question) {
+    // /**
+    //  * Toggles visibility of bar
+    //  * @return {Self} itself.
+    //  */
+    // toggle: function(question) {
 
-      if (this.isOpen && this.question === question) {
-        this.hide();
-      } else if (!this.isOpen) {
-        this.show();
-      }
+    //   if (this.isOpen && this.question === question) {
+    //     this.hide();
+    //   } else if (!this.isOpen) {
+    //     this.show();
+    //   }
 
-      this.currentQuestion = question;
-      return this;
-    },
+    //   this.currentQuestion = question;
+    //   return this;
+    // },
 
-    /**
-     * Shows the bar.
-     * @return {jQueryElm} jQuery's animation object.
-     */
-    show: function() {
-      this.isOpen = true;
-      return this.$el.parent().animate({
-        bottom: this.bottomPos.open
-      });
-    },
+    // /**
+    //  * Shows the bar.
+    //  * @return {jQueryElm} jQuery's animation object.
+    //  */
+    // show: function() {
+    //   this.isOpen = true;
+    //   return this.$el.parent().animate({
+    //     bottom: this.bottomPos.open
+    //   });
+    // },
 
-    /**
-     * Hides the bar.
-     * @return {jQueryElm} jQuery's animation object.
-     */
-    hide: function() {
-      this.isOpen = false;
-      return this.$el.parent().animate({
-        bottom: this.bottomPos.closed
-      });
-    }
+    // /**
+    //  * Hides the bar.
+    //  * @return {jQueryElm} jQuery's animation object.
+    //  */
+    // hide: function() {
+    //   this.isOpen = false;
+    //   return this.$el.parent().animate({
+    //     bottom: this.bottomPos.closed
+    //   });
+    // }
   });
 
 });

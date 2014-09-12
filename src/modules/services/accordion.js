@@ -1,6 +1,8 @@
 define(function(require){
   var $ = require('jquery');
   var when = require('when');
+  var Backbone = require('backbone');
+  var _ = require('underscore');
 
   var questionTemplates = {
     ageyears: require('tmpl!src/modules/templates/questions/ageyears'),
@@ -33,20 +35,31 @@ define(function(require){
           self.el.find('.full').slideDown();
           self.el.find('.partial').slideUp();
 
+          self.trigger('question-closed', self.currentlyOpenQuestion);
+
         });
       } else {
 
-        self.currentlyOpenQuestion = question;
+        //=== toggling a new one
 
         // close currently open
         self.close(self.currentlyOpenLi)
 
           // then open new one
           .then(function() {
+
+            if (self.currentlyOpenQuestion) {
+              self.trigger('question-closed', self.currentlyOpenQuestion);
+            }
+            self.currentlyOpenQuestion = question;
+
             self.open(target).then(function() {
 
               // when done, save opened.
               self.currentlyOpenLi = target;
+
+              self.trigger('question-selected', question);
+
             });
           });
       }
@@ -95,11 +108,11 @@ define(function(require){
       li.data('questionSet', true);
     }
 
-    // open this one's full and close partial
+    // open this one's .full and close .partial
     li.find('.full').slideDown();
     li.find('.partial').slideUp();
 
-    // find all other questions, and change them to partial view
+    // find all other questions, and change them to .partial view
     var allOthers = self.el.find('li:not(.selected)');
     allOthers.find('.full').slideUp();
     allOthers.find('.partial').slideDown();
@@ -111,9 +124,19 @@ define(function(require){
     return def.promise;
   };
 
+  Accordion.prototype.getContentEl = function() {
+    if (this.currentlyOpenLi) {
+      return this.currentlyOpenLi.find('.content');
+    } else {
+      return null;
+    }
+  };
+
   Accordion.prototype.destroy = function() {
     this.el.off('click');
   };
+
+  Accordion.prototype = _.extend(Accordion.prototype, Backbone.Events);
 
   return Accordion;
 });

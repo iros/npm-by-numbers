@@ -2,6 +2,7 @@ define(function(require) {
   var Backbone = require('backbone');
   var $ = require('jquery');
   var Accordion = require('src/modules/services/accordion');
+  var QuestionBreakdownView = require('src/modules/components/question-breakdown');
 
   var questionTemplates = {
     intro: require('tmpl!src/modules/templates/questions-intro'),
@@ -52,6 +53,28 @@ define(function(require) {
           // enable questions as accordions!
           self.accordion = new Accordion(self.$el.find('ul'));
           self.accordion.setData(self.data);
+
+          self.accordion.on('question-selected', function(question) {
+
+            var contentEl = self.accordion.getContentEl();
+
+            self.questionBreakdownView = new QuestionBreakdownView({
+              question : question
+            });
+
+            self.questionBreakdownView.$el.appendTo(contentEl);
+            self.questionBreakdownView.setData(self.data).render();
+
+
+          });
+
+          self.accordion.on('question-closed', function(d) {
+            console.log("closed", d);
+            if (self.questionBreakdownView) {
+              self.questionBreakdownView.remove();
+              self.questionBreakdownView.$el.remove();
+            }
+          });
 
           // and fade them in
           self.$el.fadeIn();

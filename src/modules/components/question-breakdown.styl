@@ -1,31 +1,30 @@
 $bargraph_height = 6px;
 
-#question-breakdown_ {
-  width: $questions_width
-  position: absolute;
-  bottom: $bottombar_height - $bottombar_question_height;
-  background-color: white;
-  top: $body_padding + $topbar_height + 10;
-  left: $body_padding;
-
-  default-section();
+.question_breakdown {
+  width: 98%;
+  position: relative;
+  margin-top: 10px;
+  margin-left: 2%;
 
   .breakdown {
-    position: absolute;
-    border-left: 1px solid $border_color;
+
+    // border-left: 1px solid $border_color;
     cursor: pointer;
-    height: 100%;
+    margin-bottom: 5px;
+    background-color: #fafafa;
+    padding-left: 10px;
 
     .barcontainer {
       position: relative;
       width: 100%;
       height: $bargraph_height;
-      border-bottom: 1px solid $border_color_light;
+      // border-bottom: 1px solid $border_color_light;
 
       .bargraph {
         position: absolute;
-        top: 0;
-        left: 0;
+        top: -5;
+        left: 5px;
+        bottom: 5px;
         height: $bargraph_height - 1;
       }
     }
@@ -42,7 +41,8 @@ $bargraph_height = 6px;
 
   .breakdown.selected {
     color: $data_medblue;
-    background-color: #EDEDED;
+    background-color: $background_color_selected;
+    position: relative;
 
     .close {
       display: inline;
@@ -53,7 +53,8 @@ $bargraph_height = 6px;
   }
 
   .breakdown:hover {
-    background-color: #EDEDED;
+    background-color: $background_color_selected;
+    box-shadow: inset 2px 0px 0px 0px $links_red;
   }
 
 
