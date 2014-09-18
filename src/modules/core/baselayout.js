@@ -105,6 +105,25 @@ define(function(require) {
     layout.trigger('navigate', path);
   });
 
+  var currentQuestion;
+  questionView.on('question-switch', function(breakdown, question) {
+    // if this is a different question, clear the canvas and navigate
+
+    visView.highlightProperties([]);
+    if (currentQuestion !== question) {
+      layout.trigger('navigate', 'breakdown/' + breakdown + '/question/' + question); // navigate
+    } else {
+      // same question so just clear it
+      layout.trigger('navigate', 'breakdown/' + breakdown);
+    }
+    currentQuestion = question;
+  });
+
+  questionView.on('highlight-subset', function(subset) {
+    layout.updateQuestion(null, subset, false);
+    layout.updateChart();
+  });
+
   // when a user switches a question, clear the current highlights and
   // navigate away
   // footerView.on('question-switch', function(breakdown, question) {

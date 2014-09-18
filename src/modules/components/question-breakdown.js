@@ -30,10 +30,6 @@ define(function(require) {
     },
 
     afterRender: function() {
-      // this.bottomPos = {
-      //   open: $('#bottombar').height() + 20, // default section padding, shared.styl.
-      //   closed: $('#bottombar').height() - $('#question-breakdown').height()
-      // };
 
       // create a width scale that we'll use to setup our data.
       this.scale = d3.scale.linear()
@@ -144,63 +140,15 @@ define(function(require) {
           this.$el.html(this.template({ data : { points : templateData }}));
           this.$el.slideDown();
 
+        } else {
+          // this is not an ordered question, that just has a single breakdown.
+          this.hide();
         }
-        // else {
-        //   // this is not an ordered question, that just has a single breakdown.
-        //   this.hide();
-        // }
 
       }
-      // else {
-
-      //   if (question === this.question) {
-      //     // same question, so just close the bar & reset question
-      //     this.hide();
-      //     this.question = null;
-      //   }
-
-      // }
 
       return this;
-    },
-
-    // /**
-    //  * Toggles visibility of bar
-    //  * @return {Self} itself.
-    //  */
-    // toggle: function(question) {
-
-    //   if (this.isOpen && this.question === question) {
-    //     this.hide();
-    //   } else if (!this.isOpen) {
-    //     this.show();
-    //   }
-
-    //   this.currentQuestion = question;
-    //   return this;
-    // },
-
-    // /**
-    //  * Shows the bar.
-    //  * @return {jQueryElm} jQuery's animation object.
-    //  */
-    // show: function() {
-    //   this.isOpen = true;
-    //   return this.$el.parent().animate({
-    //     bottom: this.bottomPos.open
-    //   });
-    // },
-
-    // /**
-    //  * Hides the bar.
-    //  * @return {jQueryElm} jQuery's animation object.
-    //  */
-    // hide: function() {
-    //   this.isOpen = false;
-    //   return this.$el.parent().animate({
-    //     bottom: this.bottomPos.closed
-    //   });
-    // }
+    }
   });
 
 });

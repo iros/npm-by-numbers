@@ -25,6 +25,7 @@ define(function(require) {
       options = options || {};
       this.breakdown = options.breakdown || 'intro';
       this.template = questionTemplates[this.breakdown];
+      this.question = null;
     },
 
     setData: function(data) {
@@ -56,21 +57,31 @@ define(function(require) {
 
           self.accordion.on('question-selected', function(question) {
 
+            self.question = question;
+
             var contentEl = self.accordion.getContentEl();
 
             self.questionBreakdownView = new QuestionBreakdownView({
               question : question
             });
 
+            // append element first, so that we have a width for it
+            // then render it.
             self.questionBreakdownView.$el.appendTo(contentEl);
             self.questionBreakdownView.setData(self.data).render();
+
+            // when a breakdown is selected, trigger highlight subset with
+            // the selected breakdown.
+            self.questionBreakdownView.on('highlight-subset', function(subset) {
+              self.trigger('highlight-subset', subset);
+            });
 
 
           });
 
           self.accordion.on('question-closed', function(d) {
-            console.log("closed", d);
             if (self.questionBreakdownView) {
+              self.questionBreakdownView.off();
               self.questionBreakdownView.remove();
               self.questionBreakdownView.$el.remove();
             }
