@@ -4,7 +4,7 @@ define(function(require) {
 
   require('d3Chart');
 
-  // var colors = require('src/modules/services/colors');
+  var colors = require('src/modules/services/colors');
 
   d3.chart('waffleLabelsChart', {
 
@@ -50,11 +50,18 @@ define(function(require) {
                   .attr('y', function(dd) {
                     return chart.questionBreakdownValues[d.group].scale(dd);
                   })
+                  .style('fill', function(dd) {
+                    return chart.questionBreakdownValues[d.group].colorscale(dd);
+                  })
                   .style('text-anchor', 'start')
                   .style('opacity', 0)
                   .text(function(dd) {
                     // return total amout
-                    return d3.format('0%')(chart.questionBreakdownValues[d.group].questionValuesP[dd]);
+                    if (chart.questionBreakdownValues[d.group].questionValuesP[dd] > 0) {
+                      return d3.format('0%')(chart.questionBreakdownValues[d.group].questionValuesP[dd]);
+                    } else {
+                      return '';
+                    }
                   })
                   .transition()
                   .delay(function(dd) {
@@ -91,11 +98,8 @@ define(function(require) {
           self.questionBreakdownValues = {};
         }
 
-        // what's the question we're asking
-        var question = self.dictLookupTable[self.highlightBy[0]];
-
         // what are all the options available for that question?
-        var questionOptions = self.data.question_order[question];
+        var questionOptions = self.data.question_order[self._question];
 
         // what's the data, per breakdown, for each question order?
         //
@@ -141,6 +145,11 @@ define(function(require) {
             self.questionBreakdownValues[cat].scale = d3.scale.ordinal()
               .domain(questionOptions)
               .range(heightPositions);
+
+            // add color, because we can
+            self.questionBreakdownValues[cat].colorscale = d3.scale.ordinal()
+              .domain(questionOptions)
+              .range(colors.highlightProperties);
           }
         });
       }
@@ -189,6 +198,25 @@ define(function(require) {
         return self._breakdown;
       }
       return this;
+    },
+
+    /**
+     * Set or get the question being reviewd
+     * @param  {String} question question
+     * @return {[String]}          question
+     */
+    question: function(question) {
+      var self = this;
+
+      if (arguments.length) {
+        if (self._question !== question) {
+          delete self.questionBreakdownValues;
+          self._question = question;
+        }
+      } else {
+        return self._question;
+      }
+      return self;
     },
 
     /**

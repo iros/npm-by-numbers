@@ -47,9 +47,9 @@ define(function(require) {
       }
       // set question
       if (question) {
-        // questionBreakdownView.setQuestion(question);
-        // questionView.setQuestion(question)
+        visView.setQuestion(question);
       }
+
       // highlight breakdown
       if (highlights) {
         visView.highlightProperties(highlights);
@@ -120,7 +120,7 @@ define(function(require) {
   });
 
   questionView.on('highlight-subset', function(subset) {
-    layout.updateQuestion(null, subset, false);
+    layout.updateQuestion(this.question, subset, false);
     layout.updateChart();
   });
 

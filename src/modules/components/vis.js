@@ -160,6 +160,10 @@ define(function(require) {
       }
     },
 
+    setQuestion: function(question) {
+      this.waffleLableChart.question(question);
+    },
+
     highlightProperties: function(highlightProperties) {
       this.waffleChart.highlight(highlightProperties);
       this.waffleLableChart.highlight(highlightProperties);
