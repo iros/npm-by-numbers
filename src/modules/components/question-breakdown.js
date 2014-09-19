@@ -142,7 +142,7 @@ define(function(require) {
 
         } else {
           // this is not an ordered question, that just has a single breakdown.
-          this.hide();
+          this.$el.hide();
         }
 
       }
