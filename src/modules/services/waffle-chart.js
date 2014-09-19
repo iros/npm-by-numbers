@@ -110,7 +110,7 @@ define(function(require) {
 
       self.bases = {
         dots : self.base.append('g')
-        .classed('dots', true)
+          .classed('dots', true)
       };
 
       self.layer('dots', self.bases.dots, {

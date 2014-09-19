@@ -10,6 +10,7 @@ define(function(require) {
 
   // get our chart.
   require('src/modules/services/waffle-chart');
+  require('src/modules/services/waffle-label-chart');
 
   return Backbone.View.extend({
 
@@ -64,12 +65,19 @@ define(function(require) {
       self.gridDims = self._computeGridForBreakdown();
 
       // create waffle chart
-      self.waffleChart = self.svg
+      self.waffleG = self.svg.append('g').classed('waffle', true);
+      self.waffleChart = self.waffleG
         .chart('waffleChart', { dims: self.gridDims })
         .highlightDictionary(self.data.question_order, reverseQuestionDict);
 
       // draw waffle chart
       self.waffleChart.draw(self.dataModeler.dots);
+
+      // create waffle chart labels chart
+      self.waffleLablesG = self.svg.append('g').classed('waffle-labels', true);
+      self.waffleLableChart = self.waffleLablesG
+        .chart('waffleLabelsChart', { dims : self.gridDims })
+        .highlightDictionary(self.data.question_order, reverseQuestionDict);
 
       this.visTopBar = new VisTopBar();
       this.visTopBar.setData(self.data);
@@ -132,11 +140,14 @@ define(function(require) {
 
         this.gridDims = this._computeGridForBreakdown(breakdown);
 
-        this.waffleChart
-          .dimensions(this.gridDims);
+        this.waffleChart.dimensions(this.gridDims);
+
+        this.waffleLableChart.breakdown(breakdown);
+        this.waffleLableChart.dimensions(this.gridDims);
 
         if (highlightProperties) {
           this.waffleChart.highlight(highlightProperties);
+          this.waffleLableChart.highlight(highlightProperties);
         }
 
         if (this.firstSwitch) {
@@ -150,15 +161,13 @@ define(function(require) {
     },
 
     highlightProperties: function(highlightProperties) {
-
-      this.waffleChart
-        .highlight(highlightProperties);
-
-      // this.waffleChart.draw(this.dataModeler.dots);
+      this.waffleChart.highlight(highlightProperties);
+      this.waffleLableChart.highlight(highlightProperties);
     },
 
     updateChart: function() {
       this.waffleChart.draw(this.dataModeler.dots);
+      this.waffleLableChart.draw(this.data);
     },
 
 
