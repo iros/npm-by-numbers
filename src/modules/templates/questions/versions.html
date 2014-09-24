@@ -1,8 +1,8 @@
-NPM's packages span a fairly large range of versions. The highest versions
-reaching the 50s. While most packages observe the <a href="http://semver.org/">semver
-</a> protocol, many use dates and other formats to specify the versions.
-
-The vast majority of packages on npm are still version 0.*
-<%= questions.all.version_major_zero %>
-(out of <%= total %>).
-
+<ul>
+  <li>
+    Regardless of the age, most packages aren't past major version 0.*. Over 80% of packages in every age bucket are 0.*.
+  </li>
+  <li>
+    The semver specification gets applied fairly liberaly to package versioning. Some are very careful to bump even minor versions, while others speed along past the infamous 1.*, never to look back. Looking at the relationship between package age and its major version, there is no correlation between the two.
+  </li>
+</ul>
