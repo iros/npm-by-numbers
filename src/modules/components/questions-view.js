@@ -18,7 +18,8 @@ define(function(require) {
 
     events: {
       'click a.start': 'onStart',
-      'click li a' : 'questionClick'
+      'click li a' : 'questionClick',
+      'click .content li.highlights' : 'factClick'
     },
 
     initialize: function(options) {
@@ -102,7 +103,7 @@ define(function(require) {
      * what happens when a user clicks on a question?
      * Mark that question link as seleted and trigger the question switch
      * event, that will go up the chain to the footer parent view.
-     * @param  {[type]} ev [description]
+     * @param  {jQuery.Event} ev [description]
      * @return {[type]}    [description]
      */
     questionClick: function(ev) {
@@ -116,8 +117,28 @@ define(function(require) {
       }
       this.current = target;
       this.trigger('question-switch', q);
-      console.log(q);
+      return false;
+    },
+
+    /**
+     * what happens when someone clicks a fact that is a part of the question content?
+     * We should be highlighting some part of the chart, so let's do that.
+     * @param  {jQuery.Event} e event
+     * @return {[type]}   [description]
+     */
+    factClick: function(ev) {
+      ev.stopPropagation();
+      ev.preventDefault();
+
+      var target = $(ev.target);
+      var q = target.data('highlighted').split(",");
+
+      this.trigger('highlight-subset', q);
+      if (this.questionBreakdownView) {
+        this.questionBreakdownView.toggleOptionGroup(q);
+      }
       return false;
     }
+
   });
 });

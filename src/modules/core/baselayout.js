@@ -124,6 +124,7 @@ define(function(require) {
     layout.updateChart();
   });
 
+
   // when a user switches a question, clear the current highlights and
   // navigate away
   // footerView.on('question-switch', function(breakdown, question) {

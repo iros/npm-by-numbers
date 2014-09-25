@@ -1,6 +1,7 @@
 define(function(require) {
   var Backbone = require('backbone');
   var $ = require('jquery');
+  var _ = require('lodash');
   var d3 = require('d3');
   var colors = require('src/modules/services/colors');
 
@@ -13,19 +14,20 @@ define(function(require) {
 
     initialize: function(options) {
 
+      var self = this;
       options = options || {};
 
-      this.data = null;
-      this.isOpen = false;
-      this.question = null;
-      this.breakdown = null;
-      this.selectedSubsets = [];
+      self.data = null;
+      self.isOpen = false;
+      self.question = null;
+      self.breakdown = null;
+      self.selectedOptions = [];
 
-      this.pFormat = d3.format('0.1%');
-      this.cFormat = d3.format('0,');
+      self.pFormat = d3.format('0.1%');
+      self.cFormat = d3.format('0,');
 
       if (options.question) {
-        this.question = options.question;
+        self.question = options.question;
       }
     },
 
@@ -42,19 +44,85 @@ define(function(require) {
         }
     },
 
-    onQuestionBreakdownSelect: function(ev) {
-      var target = $(ev.target).closest('.breakdown');
-      var questionSubset = target.data('questionsubset');
+    /**
+     * Allows for the selection of a specific subset of options. It deselects
+     * everything else that was selected that doesn't need to remain selected.
+     * If the requested options are the same as what is currently selected, then
+     * they are all deselected.
+     * @param  {[type]} whichOptions [description]
+     * @return {[type]}              [description]
+     */
+    toggleOptionGroup: function(whichOptions) {
+      var self = this;
 
-      if (this.selectedSubsets.indexOf(questionSubset) !== -1) {
-        target.removeClass('selected');
-        this.selectedSubsets.splice(this.selectedSubsets.indexOf(questionSubset), 1);
-      } else {
-        target.addClass('selected');
-        this.selectedSubsets.push(questionSubset);
+      // find what we should remove
+      self.selectedOptions.forEach(function(selectedOption) {
+
+        // if this option isn't marked for selection, remove it.
+        if (whichOptions.indexOf(selectedOption) === -1) {
+          var target = self.$el.find('[data-questionsubset=' + selectedOption + ']');
+          target.removeClass('selected');
+        }
+
+      });
+
+      if (!_.isArray(whichOptions)) {
+        whichOptions = [whichOptions];
       }
 
-      this.trigger('highlight-subset', this.selectedSubsets);
+      // if the current selected subsets is equal to the whichOptions we should
+      // highlight, then we need to just disable all of them.
+      if (_.isEqual(self.selectedOptions, whichOptions)) {
+        self.toggleOptionGroup([]);
+
+      // there is some difference, so let's highlight all the ones we're
+      // supposed to.
+      } else {
+        whichOptions.forEach(function(whichOption) {
+          // find the option element
+          var target = self.$el.find('[data-questionsubset=' + whichOption + ']');
+          target.addClass('selected');
+
+        });
+
+        self.selectedOptions = whichOptions;
+      }
+
+      self.trigger('highlight-subset', self.selectedOptions);
+      return self;
+    },
+
+    /**
+     * Toggles the state of a single option. Turns it on if it isn't in the
+     * currently selected options, and turns it off otherwise.
+     * @param  {String} whichOption option to highlight or to deselect.
+     * @return {[type]}             [description]
+     */
+    toggleOption: function(whichOption) {
+
+      // find the option element
+      var target = this.$el.find('[data-questionsubset=' + whichOption + ']');
+
+      // if it already is highlighted, remove it
+      if (this.selectedOptions.indexOf(whichOption) !== -1) {
+        target.removeClass('selected');
+        this.selectedOptions.splice(this.selectedOptions.indexOf(whichOption), 1);
+
+      // else mark it selected and add it to the selected subsets.
+      } else {
+        target.addClass('selected');
+        this.selectedOptions.push(whichOption);
+      }
+
+      this.trigger('highlight-subset', this.selectedOptions);
+      return this;
+    },
+
+    onQuestionBreakdownSelect: function(ev) {
+      var target = $(ev.target).closest('.breakdown');
+      var whichOption = target.data('questionsubset');
+
+      this.toggleOption(whichOption, false);
       return false;
     },
 
@@ -97,7 +165,7 @@ define(function(require) {
       if (!this.isOpen || question !== this.question) {
 
         this.question = question;
-        this.selectedSubsets = [];
+        this.selectedOptions = [];
 
         // Is this an ordered question?
         var questionOrder = this.data.question_order[this.question];
