@@ -9,7 +9,7 @@ define(function(require) {
     template: require('tmpl!src/modules/templates/question-breakdown'),
 
     events: {
-      'click' : 'onQuestionBreakdownSelect'
+      'click' : '_onOptionSelectClick'
     },
 
     initialize: function(options) {
@@ -118,7 +118,7 @@ define(function(require) {
       return this;
     },
 
-    onQuestionBreakdownSelect: function(ev) {
+    _onOptionSelectClick: function(ev) {
       var target = $(ev.target).closest('.breakdown');
       var whichOption = target.data('questionsubset');
 
@@ -156,8 +156,9 @@ define(function(require) {
     },
 
     /**
-     * Updates the bar to the correct question.
-     * @param {[type]} question [description]
+     * Builds the menu of options relevant to the question selected
+     * by the user and displays it.
+     * @param {String} question the question id.
      */
     showQuestionOptions: function(question) {
 
