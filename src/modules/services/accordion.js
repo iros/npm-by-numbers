@@ -89,6 +89,13 @@ define(function(require){
     return def.promise;
   };
 
+  Accordion.prototype.openByName = function(name) {
+    var li = this.el.find('[data-question=' + name + ']');
+    this.currentlyOpenLi = li;
+    this.currentlyOpenQuestion = name;
+    return this.open(li);
+  };
+
   Accordion.prototype.open = function(li) {
     var def = when.defer();
     var self = this;
