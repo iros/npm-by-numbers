@@ -40,7 +40,7 @@ define(function(require) {
 
         // if we got a question during initialization, do the thing.
         if (this.question) {
-          this.setQuestion(this.question);
+          this.showQuestionOptions(this.question);
         }
     },
 
@@ -159,7 +159,7 @@ define(function(require) {
      * Updates the bar to the correct question.
      * @param {[type]} question [description]
      */
-    setQuestion: function(question) {
+    showQuestionOptions: function(question) {
 
       // open if closed or new question
       if (!this.isOpen || question !== this.question) {
@@ -170,10 +170,6 @@ define(function(require) {
         // Is this an ordered question?
         var questionOrder = this.data.question_order[this.question];
         if (typeof questionOrder !== "undefined") {
-
-          // if (!this.isOpen) {
-          //   this.show();
-          // }
 
           // get the breakdowns we are looking at
           var offset = 0;
