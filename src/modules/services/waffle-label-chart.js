@@ -72,7 +72,7 @@ define(function(require) {
 
                 enteringGroupLablels.append('text')
                   .attr('y', function(dd) {
-                    return chart.questionBreakdownValues[d.group].scale(dd) + 15;
+                    return chart.questionBreakdownValues[d.group].scale(dd) + 12;
                   })
                   .style('fill', function(dd) {
                     return chart.questionBreakdownValues[d.group].colorscale(dd);
@@ -170,10 +170,13 @@ define(function(require) {
               .domain(questionOptions)
               .range(heightPositions);
 
-            // add color, because we can
+            // add color, because we can (but make everything darker.)
+            var darkerHighlightColors = colors.highlightProperties.map(function(color) {
+              return d3.rgb(color).darker(1);
+            });
             self.questionBreakdownValues[cat].colorscale = d3.scale.ordinal()
               .domain(questionOptions)
-              .range(colors.highlightProperties);
+              .range(darkerHighlightColors);
           }
         });
       }
