@@ -67,8 +67,16 @@ define(function(require) {
         visView.setBreakdown(breakdown);
       }
 
+      // update the top tabs
       topbarView.setBreakdown(breakdown);
-      questionView.setBreakdown(breakdown);
+
+      // update the question bar
+      if (question) {
+        questionView.setBreakdown(breakdown, question);
+      } else {
+        questionView.setBreakdown(breakdown);
+      }
+
     }
   });
 

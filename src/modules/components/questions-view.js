@@ -35,7 +35,7 @@ define(function(require) {
 
     // when someone tells us to update the questions, change to the
     // appropriate breakdown
-    setBreakdown: function(breakdown) {
+    setBreakdown: function(breakdown, question) {
       var self = this;
 
       if (self.breakdown !== breakdown) {
@@ -56,43 +56,64 @@ define(function(require) {
           self.accordion = new Accordion(self.$el.find('ul'));
           self.accordion.setData(self.data);
 
+          // when a question is opened
           self.accordion.on('question-selected', function(question) {
-
-            self.question = question;
-
-            var contentEl = self.accordion.getContentEl();
-
-            self.questionBreakdownView = new QuestionBreakdownView({
-              question : question
-            });
-
-            // append element first, so that we have a width for it
-            // then render it.
-            self.questionBreakdownView.$el.appendTo(contentEl);
-            self.questionBreakdownView.setData(self.data).render();
-
-            // when a breakdown is selected, trigger highlight subset with
-            // the selected breakdown.
-            self.questionBreakdownView.on('highlight-subset', function(subset) {
-              self.trigger('highlight-subset', subset);
-            });
-
-
+            self.fillQuestionBody(question);
+            self.trigger('question-switch', self.breakdown, question);
           });
 
-          self.accordion.on('question-closed', function(d) {
-            if (self.questionBreakdownView) {
-              self.questionBreakdownView.off();
-              self.questionBreakdownView.remove();
-              self.questionBreakdownView.$el.remove();
-            }
-          });
+          // when a question is closed
+          self.accordion.on('question-closed', self.closeQuestion, self);
 
           // and fade them in
-          self.$el.fadeIn();
+          var onFadeIn = function(){};
+
+          if (typeof question!== "undefined") {
+            onFadeIn = function() {
+              self.accordion.openByName(question).then(function() {
+                self.fillQuestionBody(question);
+              });
+            };
+          }
+          self.$el.fadeIn(onFadeIn);
 
         });
       }
+    },
+
+
+
+    closeQuestion: function(question) {
+      var self = this;
+      if (self.questionBreakdownView) {
+        self.questionBreakdownView.off();
+        self.questionBreakdownView.remove();
+        self.questionBreakdownView.$el.remove();
+      }
+      return self;
+    },
+
+    fillQuestionBody: function(question) {
+      var self = this;
+      self.question = question;
+      var contentEl = self.accordion.getContentEl();
+
+      self.questionBreakdownView = new QuestionBreakdownView({
+        question : question
+      });
+
+      // append element first, so that we have a width for it
+      // then render it.
+      self.questionBreakdownView.$el.appendTo(contentEl);
+      self.questionBreakdownView.setData(self.data).render();
+
+      // when a breakdown is selected, trigger highlight subset with
+      // the selected breakdown.
+      self.questionBreakdownView.on('highlight-subset', function(subset) {
+        self.trigger('highlight-subset', subset);
+      });
+
+      return true;
     },
 
     onStart: function() {

@@ -20,17 +20,14 @@ define(function(require) {
       var self = this;
 
       var def = when.defer();
-
       self.ready = def.promise;
 
       self.dataFetcher = new DataFetcher('/data/stats_reduced.json');
-
       self.dataFetcher.then(function(data) {
 
         // pass data to our layout which will distribute it across
         // required views
         layout.setData(data);
-
         layout.render();
 
         // notify to all routes that we are ready.
@@ -44,7 +41,7 @@ define(function(require) {
     },
 
     index: function() {
-
+      // do nothing.
     },
 
     breakdown: function(breakdown) {
@@ -56,7 +53,7 @@ define(function(require) {
 
     question: function(breakdown, question) {
       this.ready.then(function() {
-        layout.updateBreakdown(breakdown);
+        layout.updateBreakdown(breakdown, question);
         layout.updateQuestion(question);
         layout.updateChart();
       });
