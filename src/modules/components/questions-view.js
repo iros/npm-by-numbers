@@ -102,7 +102,7 @@ define(function(require) {
     /**
      * what happens when a user clicks on a question?
      * Mark that question link as seleted and trigger the question switch
-     * event, that will go up the chain to the footer parent view.
+     * event which will go up to the layout.
      * @param  {jQuery.Event} ev [description]
      * @return {[type]}    [description]
      */

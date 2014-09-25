@@ -8,18 +8,12 @@ define(function(require) {
   var VisView = require('src/modules/components/vis');
   var QuestionView = require('src/modules/components/questions-view');
 
-  // var QuestionBreakdownView = require('src/modules/components/question-breakdown');
-
-  // var FooterView = require("src/modules/components/footer");
+  var currentQuestion;
 
   // Use main layout and set Views.
-
   var topbarView = new TopbarView();
   var visView = new VisView();
   var questionView = new QuestionView();
-
-  // var footerView = new FooterView();
-  // var questionBreakdownView = new QuestionBreakdownView();
 
   var MainLayout = Layout.extend({
     el: "#main",
@@ -27,8 +21,7 @@ define(function(require) {
     views: {
       '#topbar': topbarView,
       '#vis' : visView,
-      '#questions': questionView,
-      // '#bottombar' : footerView,
+      '#questions': questionView
     },
 
     setData: function(data) {
@@ -36,8 +29,6 @@ define(function(require) {
       topbarView.setData(data);
       visView.setData(data);
       questionView.setData(data);
-      // questionBreakdownView.setData(data);
-      // footerView.setData(data);
     },
 
     updateQuestion: function(question, highlights, clear) {
@@ -77,21 +68,7 @@ define(function(require) {
       }
 
       topbarView.setBreakdown(breakdown);
-
       questionView.setBreakdown(breakdown);
-
-      // update footer, top and questions view if
-      // if questions aren't rendered or the breakdown changed
-      // if (!footerView.areQuestionsRendered() ||
-      //     footerView.getBreakdown() !== breakdown) {
-      //   footerView.renderQuestions(breakdown);
-
-      //   // update the categories at the top only if breakdown changed
-      //   topbarView.setBreakdown(breakdown);
-
-      //   // update the breakdown in a question breakdown view
-      //   // questionBreakdownView.setBreakdown(breakdown);
-      // }
     }
   });
 
@@ -105,7 +82,6 @@ define(function(require) {
     layout.trigger('navigate', path);
   });
 
-  var currentQuestion;
   questionView.on('question-switch', function(breakdown, question) {
     // if this is a different question, clear the canvas and navigate
 
@@ -123,27 +99,6 @@ define(function(require) {
     layout.updateQuestion(this.question, subset, false);
     layout.updateChart();
   });
-
-
-  // when a user switches a question, clear the current highlights and
-  // navigate away
-  // footerView.on('question-switch', function(breakdown, question) {
-  //   if (questionBreakdownView.getQuestion() !== question) {
-  //     visView.highlightProperties([]);
-  //     layout.trigger('navigate', 'breakdown/' + breakdown + '/question/' + question); // navigate
-  //   } else {
-  //     // same question, so, just clear it
-  //     visView.highlightProperties([]);
-  //     questionBreakdownView.setQuestion(question);
-  //     layout.trigger('navigate', 'breakdown/' + breakdown); // navigate
-  //   }
-
-  // });
-
-  // questionBreakdownView.on('highlight-subset', function(subset) {
-  //   layout.updateQuestion(null, subset, false);
-  //   layout.updateChart();
-  // });
 
   var layout = new MainLayout();
   return layout;
