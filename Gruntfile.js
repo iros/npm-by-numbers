@@ -17,9 +17,17 @@ module.exports = function(grunt) {
     'Compile and start a dev webserver.',
     ['setup-dev', 'watch']);
 
+  grunt.registerTask('prod-build',
+    'Build production',
+    ['clean:prod', 'jade:prod', 'stylus:prod', 'copy', 'requirejs']);
+
   grunt.registerTask('prod',
     'Compile for production and start a test webserver.',
-    ['clean:prod', 'jade:prod', 'stylus:prod', 'copy', 'requirejs', 'connect:prod']);
+    [ 'prod-build', 'connect:prod']);
+
+  grunt.registerTask('deploy',
+    'Compile for production and deploy to s3',
+    ['prod-build', 's3']);
 
   grunt.registerTask('default', ['dev']);
 
