@@ -1,21 +1,28 @@
 #topbar {
-  top: $body_padding;
+  top: 0px;
   left: $body_padding;
   right: $body_padding;
   height: $topbar_height;
   border-bottom: 1px solid $border_color;
 
-  default-section();
+  z-index:1000;
+  default-section-fixed();
+
+  padding-top: 50px;
 
   img {
     float:left;
   }
+
+  .header-image {
+    position: absolute;
+    top: 22px;
+  }
   .explore-by {
 
-    display: inline-block;
-    position: absolute;
-    top: 0;
-    left: $questions_width;
+    position: relative;
+    top: -38px;
+    left: $questions_width - 20;
 
     span {
       display: inline-block;
