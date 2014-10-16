@@ -151,7 +151,7 @@ define(function(require) {
       ev.stopPropagation();
       ev.preventDefault();
 
-      var target = $(ev.target);
+      var target = $(ev.target).closest('li.highlights');
       var q = target.data('highlighted').split(",");
 
       this.trigger('highlight-subset', q);
