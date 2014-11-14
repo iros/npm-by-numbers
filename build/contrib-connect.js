@@ -7,7 +7,7 @@ module.exports = function(grunt) {
   function rewriteRoute(req, res, next) {
     if (/^\/(?:breakdown\/[^\/]+)$/.test(req.url) ||
         /^\/(?:breakdown\/[A-Za-z+\/\_0-9]+)$/.test(req.url) ||
-        /about/.test(req.url)) {
+        /^\/(?:about)$/.test(req.url)) {
       grunt.log.debug('PUSHSTATE ' + req.url + ' -> ' + root);
       req.url = root;
     }
