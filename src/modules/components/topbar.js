@@ -8,11 +8,18 @@ define(function(require) {
 
     template : require('tmpl!src/modules/templates/topbar-start'),
     events: {
-      'click li' : 'onClick'
+      'click li' : 'onClick',
+      'click .help' : 'onHelpClick'
     },
 
     initialize: function() {
       this.rendered = false;
+
+      if (window.location.pathname === "/about") {
+        this.showingHelp = true;
+      } else {
+        this.showingHelp = false;
+      }
     },
 
     setData: function(data) {
@@ -44,6 +51,18 @@ define(function(require) {
         this.selected.addClass('selected');
 
         this.breakdown = breakdown;
+      }
+    },
+
+    onHelpClick: function() {
+      if (!this.showingHelp) {
+        this.showingHelp = true;
+        this.currentLocation = window.location.pathname === "/about" ? "/" : window.location.pathname;
+        this.trigger('navigate', 'about');
+      } else {
+        this.showingHelp = false;
+        this.trigger('navigate', this.currentLocation);
+        delete this.currentLocation;
       }
     }
 

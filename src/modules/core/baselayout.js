@@ -77,6 +77,45 @@ define(function(require) {
         questionView.setBreakdown(breakdown);
       }
 
+    },
+
+    hide: function(what) {
+      if (typeof what === "undefined") {
+        this.$el.find('#questions').hide();
+        this.$el.find('#vis').hide();
+        this.$el.find('.explore-by').hide();
+      } else if (what === "Questions") {
+        this.$el.find('#questions').hide();
+      } else if (what === "Chart") {
+        this.$el.find('#vis').hide();
+      } else if (what === "Controls") {
+        this.$el.find('.explore-by').hide();
+      }
+    },
+
+    hideQuestions: function() {
+      this.hide('Questions');
+    },
+    hideChart: function() {
+      this.hide('Chart');
+    },
+    hideControls: function() {
+      this.hide('Controls');
+    },
+
+    show: function(what) {
+      if (typeof what === "undefined") {
+        //show everything that could be hidden
+        this.$el.find("#questions").show();
+        this.$el.find("#vis").show();
+        this.$el.find(".explore-by").show();
+      } else if (what === "Questions") {
+        this.$el.find('#questions').show();
+      } else if (what === "Chart") {
+        this.$el.find('#vis').show();
+      } else if (what === "Controls") {
+        this.$el.find('.explore-by').show();
+      }
     }
   });
 

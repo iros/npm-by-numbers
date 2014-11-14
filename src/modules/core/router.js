@@ -13,7 +13,8 @@ define(function(require) {
     routes: {
       "": "index",
       "breakdown/:breakdown": "breakdown",
-      "breakdown/:breakdown/question/:question": "question"
+      "breakdown/:breakdown/question/:question": "question",
+      "about": "about"
     },
 
     initialize: function() {
@@ -42,10 +43,14 @@ define(function(require) {
 
     index: function() {
       // do nothing.
+      this.ready.then(function() {
+        layout.show();
+      });
     },
 
     breakdown: function(breakdown) {
       this.ready.then(function() {
+        layout.show();
         layout.updateBreakdown(breakdown);
         layout.updateChart();
       });
@@ -53,9 +58,16 @@ define(function(require) {
 
     question: function(breakdown, question) {
       this.ready.then(function() {
+        layout.show();
         layout.updateBreakdown(breakdown, question);
         layout.updateQuestion(question);
         layout.updateChart();
+      });
+    },
+
+    about: function() {
+      this.ready.then(function() {
+        layout.hide();
       });
     }
 
