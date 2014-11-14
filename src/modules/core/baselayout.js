@@ -7,13 +7,14 @@ define(function(require) {
   var TopbarView = require('src/modules/components/topbar');
   var VisView = require('src/modules/components/vis');
   var QuestionView = require('src/modules/components/questions-view');
-
+  var AboutView = require('src/modules/components/about');
   var currentQuestion;
 
   // Use main layout and set Views.
   var topbarView = new TopbarView();
   var visView = new VisView();
   var questionView = new QuestionView();
+  var aboutView = new AboutView();
 
   var MainLayout = Layout.extend({
     el: "#main",
@@ -104,6 +105,7 @@ define(function(require) {
     },
 
     show: function(what) {
+      this.hideAbout();
       if (typeof what === "undefined") {
         //show everything that could be hidden
         this.$el.find("#questions").show();
@@ -116,6 +118,14 @@ define(function(require) {
       } else if (what === "Controls") {
         this.$el.find('.explore-by').show();
       }
+    },
+
+    about: function() {
+      this.$el.find('#about-info').html(aboutView.render().el);
+    },
+
+    hideAbout: function() {
+      aboutView.$el.remove();
     }
   });
 

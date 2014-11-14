@@ -68,6 +68,7 @@ define(function(require) {
     about: function() {
       this.ready.then(function() {
         layout.hide();
+        layout.about();
       });
     }
 

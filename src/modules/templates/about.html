@@ -1,0 +1,59 @@
+<div class="about">
+  <div class="col1">
+    <h3> What is This?</h3>
+    <p>
+      NPM by numbers is a visualization of data gathered from NPM.js. Specifically, it as an overview of the packages that existed in NPM as of Sept 22nd, 2014. This tool gathers information about version numbers, dependents, package age, last update dates, maintainer count and so on. Here you can explore how the entire NPM ecosystem looks like across those variables.
+    </p>
+
+    <h3> Where does the data come from?</h3>
+
+    <p>
+      The original dataset is actually the entirety of skimdb - NPMs database of package information without the binaries. You can see it here: <a href="https://skimdb.npmjs.com/registry">https://skimdb.npmjs.com/registry</a>.
+    </p>
+
+    <p>
+      The dataset was then reduced to extract aggregate information such as: The number of packages across different major versions, or how many dependents packages have when you break it down by age etc.
+    </p>
+
+    <h3> Where is the math behind these calculations? </h3>
+
+    <p>
+      The majority of the calculations were done in iPython Notebooks. You can see them here: <a href="TODO">TODO</a>. There are many calculations that didn't make it into this visualization. For example, those that test to see whether there are correlations between these different variables.
+    </p>
+  </div>
+
+
+  <div class="col2">
+    <h3> Who made this? </h3>
+    <p>
+      NPM By Numbers was made by <a href="http://ireneros.com">Irene Ros</a> at <a href="http://bocoup.com">Bocoup</a>. NPM By Numbers relies heavily on data from NPM but is not affiliated with NPM, Inc. We are very thankful to NPM for their support and assistance. Having this data available and open to all is a great example of why we love open source!
+
+    </p>
+    <h3> Why did you make this? </h3>
+    <p>
+      Many of us use NPM on a daily basis for granular tasks such as installing or publishing packages. Rarely do we have the opportunity to step out and explore the entire ecosystem of NPM. What kind of packages are on it? What is the publishing behaviour of contributors? What packages matter? How many packages are abandoned? These are just a few questions we could ask about NPM as a whole. Understanding the ecosystem we operate in is essential to making informed technology decisions. We are very happy that NPM is allowing us to explore this data and that we can tell the story of NPM together.
+    </p>
+
+    <h3> Is the code for this open source?</h3>
+
+    <p>
+      Of course! All the code behind NPM By Numbers is available on github. Specifically:
+
+      <ul>
+        <li><a href="https://github.com/iros/local-npmjs-skimdb">Data analysis</a> - Instructions for replicating skimdb, extracting relevant data about packages and iPython notebooks that produce the final datasets.
+        </li>
+        <li>
+          <a href="github.com/iros/npmjsvis">Visualiation</a> - All the code behind this tool. This visualization was built with <a href="https://github.com/jashkenas/backbone">Backbone.js</a>, <a href="http://d3js.org">d3.js</a> and <a href="http://misoproject.com/d3-chart">d3.chart</a>.
+        </li>
+      </ul>
+    </p>
+
+    <h3> How do I get in touch?</h3>
+
+    <p>
+      If you have any questions or concerns, please do not hesitate to contact me at <a href="mailto:irene@bocoup.com">irene at bocoup.com<a/>
+    </p>
+
+
+  </div>
+</div>
