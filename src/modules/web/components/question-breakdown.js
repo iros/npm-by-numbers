@@ -1,12 +1,13 @@
 define(function(require) {
-  var Backbone = require('backbone');
   var $ = require('jquery');
   var _ = require('lodash');
   var d3 = require('d3');
-  var colors = require('src/modules/services/colors');
+  var colors = require('src/modules/web/services/colors');
+  var Layout = require("layoutmanager");
 
-  return Backbone.View.extend({
-    template: require('tmpl!src/modules/templates/question-breakdown'),
+  return Layout.extend({
+    template: require('tmpl!src/modules/web/templates/question-breakdown'),
+    manage: true,
 
     events: {
       'click' : '_onOptionSelectClick'

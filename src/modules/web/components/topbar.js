@@ -1,12 +1,11 @@
 define(function(require) {
-  var Backbone = require('backbone');
   var $ = require('jquery');
+  var Layout = require("layoutmanager");
+  var controlTemplate = require('tmpl!src/modules/web/templates/topbar-grid');
 
-  var controlTemplate = require('tmpl!src/modules/templates/topbar-grid');
-
-  return Backbone.View.extend({
-
-    template : require('tmpl!src/modules/templates/topbar-start'),
+  return Layout.extend({
+    template : require('tmpl!src/modules/web/templates/topbar-start'),
+    manage: true,
     events: {
       'click li' : 'onClick',
       'click .help' : 'onHelpClick'

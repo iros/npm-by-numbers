@@ -1,20 +1,20 @@
 define(function(require) {
 
-  var Backbone = require('backbone');
   var d3 = require('d3');
   var $ = require('jquery');
+  var Layout = require("layoutmanager");
 
-  var LayoutMath = require('src/modules/services/layoutmath');
-  var DataModeler = require('src/modules/services/datamodeler');
-  var VisTopBar = require('src/modules/components/vis-topbar');
+  var LayoutMath = require('src/modules/web/services/layoutmath');
+  var DataModeler = require('src/modules/web/services/datamodeler');
+  var VisTopBar = require('src/modules/web/components/vis-topbar');
 
   // get our chart.
-  require('src/modules/services/waffle-chart');
-  require('src/modules/services/waffle-label-chart');
+  require('src/modules/web/services/waffle-chart');
+  require('src/modules/web/services/waffle-label-chart');
 
-  return Backbone.View.extend({
-
-    template: require('tmpl!src/modules/templates/vis'),
+  return Layout.extend({
+    manage: true,
+    template: require('tmpl!src/modules/web/templates/vis'),
 
     initialize: function() {
       var self = this;

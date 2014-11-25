@@ -1,12 +1,12 @@
 define(function(require) {
 
-  "use strict";
-
   var when = require('when');
   var Backbone = require('backbone');
-  var layout = require('src/modules/core/baselayout');
 
-  var DataFetcher = require('src/modules/services/datafetcher');
+  var MainLayout = require('src/modules/mobile/core/layout');
+  var layout = new MainLayout();
+
+  var DataFetcher = require('src/modules/shared/services/datafetcher');
 
   var Router = Backbone.Router.extend({
 
@@ -42,38 +42,22 @@ define(function(require) {
     },
 
     index: function() {
-      // do nothing.
-      this.ready.then(function() {
-        layout.show();
-      });
+
     },
 
     breakdown: function(breakdown) {
-      this.ready.then(function() {
-        layout.show();
-        layout.updateBreakdown(breakdown);
-        layout.updateChart();
-      });
+
     },
 
     question: function(breakdown, question) {
-      this.ready.then(function() {
-        layout.show();
-        layout.updateBreakdown(breakdown, question);
-        layout.updateQuestion(question);
-        layout.updateChart();
-      });
+
     },
 
     about: function() {
-      this.ready.then(function() {
-        layout.hide();
-        layout.about();
-      });
+
     }
 
   });
 
-  return new Router();
-
+  return Router;
 });

@@ -1,30 +1,37 @@
-define(function(require) {
-
+define(function() {
   'use strict';
 
-  var Backbone = require('backbone');
-  var $ = require('jquery');
+  // figure out which require config we should be calling to add platform specific
+  // requirements:
+  var platform = Modernizr.mq('(min-width: 760px)') ? 'web' : 'mobile';
 
-  $(function() {
-    require('core/router');
-  });
+  require(['src/modules/' + platform + '/requirejs/config'], function() {
 
-  Backbone.history.start({
-    pushState: true,
-    root: "/"
-  });
+    // load hard dependencies as well as core platform router.
+    require(['backbone', 'jquery', 'platform/core/router'], function(Backbone, $, Router) {
+      $(function() {
+        new Router();
 
-  // All navigation that is relative should be passed through the navigate
-  // method, to be processed by the router. If the link has a `data-bypass`
-  // attribute, bypass the delegation completely.
-  $(document).on("click", "a[href^='#']:not([data-bypass])", function(evt) {
-    // Prevent the default event (including page refresh).
-    evt.preventDefault();
+        Backbone.history.start({
+          pushState: true,
+          root: "/"
+        });
 
-    // `Backbone.history.navigate` is sufficient for all Routers and will
-    // trigger the correct events. The Router's internal `navigate` method
-    // calls this anyways. The fragment is sliced from the root.
-    var href = $(this).attr("href");
-    Backbone.history.navigate(href, true);
+      });
+
+      // All navigation that is relative should be passed through the navigate
+      // method, to be processed by the router. If the link has a `data-bypass`
+      // attribute, bypass the delegation completely.
+      $(document).on("click", "a[href^='#']:not([data-bypass])", function(evt) {
+        // Prevent the default event (including page refresh).
+        evt.preventDefault();
+
+        // `Backbone.history.navigate` is sufficient for all Routers and will
+        // trigger the correct events. The Router's internal `navigate` method
+        // calls this anyways. The fragment is sliced from the root.
+        var href = $(this).attr("href");
+        Backbone.history.navigate(href, true);
+      });
+    });
   });
 });

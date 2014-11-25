@@ -5,12 +5,12 @@ define(function(require){
   var _ = require('underscore');
 
   var questionTemplates = {
-    ageyears: require('tmpl!src/modules/templates/questions/ageyears'),
-    maintainers: require('tmpl!src/modules/templates/questions/maintainers'),
-    releases: require('tmpl!src/modules/templates/questions/releases'),
-    versions: require('tmpl!src/modules/templates/questions/versions'),
-    updated: require('tmpl!src/modules/templates/questions/updated'),
-    top_5_deep_dependents: require('tmpl!src/modules/templates/questions/top_5_deep_dependents')
+    ageyears: require('tmpl!src/modules/web/templates/questions/ageyears'),
+    maintainers: require('tmpl!src/modules/web/templates/questions/maintainers'),
+    releases: require('tmpl!src/modules/web/templates/questions/releases'),
+    versions: require('tmpl!src/modules/web/templates/questions/versions'),
+    updated: require('tmpl!src/modules/web/templates/questions/updated'),
+    top_5_deep_dependents: require('tmpl!src/modules/web/templates/questions/top_5_deep_dependents')
   };
 
   var Accordion = function(el) {

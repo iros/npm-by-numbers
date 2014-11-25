@@ -1,13 +1,12 @@
 define(function(require) {
 
   var Layout = require("layoutmanager");
-
   Layout.configure({ manage: true });
 
-  var TopbarView = require('src/modules/components/topbar');
-  var VisView = require('src/modules/components/vis');
-  var QuestionView = require('src/modules/components/questions-view');
-  var AboutView = require('src/modules/components/about');
+  var TopbarView = require('src/modules/web/components/topbar');
+  var VisView = require('src/modules/web/components/vis');
+  var QuestionView = require('src/modules/web/components/questions-view');
+  var AboutView = require('src/modules/web/components/about');
   var currentQuestion;
 
   // Use main layout and set Views.
@@ -16,13 +15,19 @@ define(function(require) {
   var questionView = new QuestionView();
   var aboutView = new AboutView();
 
+  var layout;
   var MainLayout = Layout.extend({
     el: "#main",
-    template: require("tmpl!src/modules/layouts/main"),
+    template: require("tmpl!src/modules/web/layouts/main"),
+
     views: {
       '#topbar': topbarView,
       '#vis' : visView,
       '#questions': questionView
+    },
+
+    initialize: function() {
+      layout = this;
     },
 
     setData: function(data) {
@@ -157,6 +162,5 @@ define(function(require) {
     layout.updateChart();
   });
 
-  var layout = new MainLayout();
-  return layout;
+  return MainLayout;
 });

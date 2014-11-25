@@ -1,18 +1,20 @@
 define(function(require) {
-  var Backbone = require('backbone');
   var $ = require('jquery');
-  var Accordion = require('src/modules/services/accordion');
-  var QuestionBreakdownView = require('src/modules/components/question-breakdown');
+  var Accordion = require('src/modules/web/services/accordion');
+  var QuestionBreakdownView = require('src/modules/web/components/question-breakdown');
+  var Layout = require("layoutmanager");
 
   var questionTemplates = {
-    intro: require('tmpl!src/modules/templates/questions-intro'),
-    versions: require('tmpl!src/modules/templates/questions-versions'),
-    age: require('tmpl!src/modules/templates/questions-age'),
-    dependents: require('tmpl!src/modules/templates/questions-dependents')
+    intro: require('tmpl!src/modules/web/templates/questions-intro'),
+    versions: require('tmpl!src/modules/web/templates/questions-versions'),
+    age: require('tmpl!src/modules/web/templates/questions-age'),
+    dependents: require('tmpl!src/modules/web/templates/questions-dependents')
   };
 
 
-  return Backbone.View.extend({
+  return Layout.extend({
+
+    manage: true,
 
     template: questionTemplates.intro,
 

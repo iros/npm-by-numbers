@@ -1,3 +1,6 @@
+// Shared require config regardless of platform. See main.js for requiring
+// platform specific configuration.
+
 require.config({
   baseUrl: "/",
 
@@ -11,11 +14,7 @@ require.config({
     d3Chart: "bower_components/d3.chart/d3.chart",
     layoutmanager: "bower_components/layoutmanager/backbone.layoutmanager",
     when: "bower_components/when/when",
-
-    components: "src/modules/components",
-    layouts: "src/modules/components/layouts",
-    core: "src/modules/core",
-    services: "src/modules/services"
+    slick: "bower_components/slick.js/slick/slick",
   },
 
   packages: [{ main: "when", location: "bower_components/when", name: "when" }],
@@ -35,6 +34,10 @@ require.config({
 
     d3: {
       exports: "d3"
+    },
+
+    slick: {
+      deps: ["slick"]
     }
   },
   deps: ["src/main"]

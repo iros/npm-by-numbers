@@ -15,6 +15,7 @@
   "loopfunc": true,
   "globals": {
     "define": true,
-    "require": true
+    "require": true,
+    "Modernizr": true
   }
 }

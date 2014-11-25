@@ -1,10 +1,10 @@
 define(function(require) {
-  var Backbone = require('backbone');
   var $ = require('jquery');
+  var Layout = require("layoutmanager");
+  var controlTemplate = require('tmpl!src/modules/web/templates/vis-topbar-controls');
 
-  var controlTemplate = require('tmpl!src/modules/templates/vis-topbar-controls');
-
-  return Backbone.View.extend({
+  return Layout.extend({
+    manage: true,
     template : "",
 
     initialize: function() {
