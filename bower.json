@@ -34,7 +34,8 @@
     "lodash-template-loader": "~0.1.6",
     "d3.chart": "~0.2.1",
     "layoutmanager": "~0.9.5",
-    "when": "~3.4.3"
+    "when": "~3.4.3",
+    "slick.js": "~1.3.15"
   },
   "devDependencies": {
     "almond": "~0.2.9"

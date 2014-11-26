@@ -6,7 +6,7 @@ define(function(require) {
   var TopbarView = require('src/modules/web/components/topbar');
   var VisView = require('src/modules/web/components/vis');
   var QuestionView = require('src/modules/web/components/questions-view');
-  var AboutView = require('src/modules/web/components/about');
+  var AboutView = require('src/modules/shared/components/about');
   var currentQuestion;
 
   // Use main layout and set Views.

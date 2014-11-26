@@ -9,7 +9,6 @@
 body {
   font-family: 'Open Sans', sans-serif;
   margin: 0;
-  padding: 0px $body_padding $body_padding $body_padding;
 }
 
 p {
@@ -30,7 +29,7 @@ ul {
   padding: 0;
 }
 
-img {
+object, img {
   display: block;
   max-width: 100%;
 }
@@ -56,16 +55,25 @@ h1 {
   font-size: 0.8em;
 }
 
-#footer {
-  position: fixed;
-  height: 25px;
-  background-color: white;
-  border-top: 1px solid $border_color_light;
-  bottom: 0;
-  left: 40px;
-  right: 40px;
+.help {
+  position: relative;
+  /* right: 30px; */
+  top: -28px;
+  background-color: #eaeaea;
+  width: 30px;
+  height: 30px;
+  -webkit-border-radius: 15px;
+  border-radius: 15px;
+  border: 1px solid #eaeaea;
+  display: inline-block;
+  float: right;
   text-align: center;
-  font-size: 0.7em;
-  color: #aaa;
-  padding-top: 3px;
+  font-size: 1.3em;
+  color: white;
+  cursor: pointer;
+}
+
+.help:hover {
+  background-color: $links_red;
+  border-color: $links_red;
 }

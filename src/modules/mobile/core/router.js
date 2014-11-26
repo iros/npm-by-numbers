@@ -8,12 +8,11 @@ define(function(require) {
 
   var DataFetcher = require('src/modules/shared/services/datafetcher');
 
+  var currentPage;
   var Router = Backbone.Router.extend({
 
     routes: {
       "": "index",
-      "breakdown/:breakdown": "breakdown",
-      "breakdown/:breakdown/question/:question": "question",
       "about": "about"
     },
 
@@ -37,12 +36,16 @@ define(function(require) {
 
       // navigate if we get a routing event.
       layout.on('navigate', function(path) {
+        currentPage = path;
         self.navigate(path, { trigger: true });
       });
     },
 
     index: function() {
-
+      // do nothing.
+      this.ready.then(function() {
+        layout.show();
+      });
     },
 
     breakdown: function(breakdown) {
@@ -54,7 +57,10 @@ define(function(require) {
     },
 
     about: function() {
-
+      this.ready.then(function() {
+        layout.hide();
+        layout.about();
+      });
     }
 
   });
