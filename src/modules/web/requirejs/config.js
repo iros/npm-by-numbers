@@ -1,10 +1,13 @@
 define(function() {
   require.config({
 
+    map: {
+      "*": {
+        platform: "modules/web"
+      }
+    },
+
     paths: {
-
-      platform: "src/modules/web",
-
       components: "platform/components",
       layouts: "platform/components/layouts",
       core: "platform/core",

@@ -4,15 +4,22 @@ module.exports = function(grunt) {
     prod: {
       options: {
         baseUrl: '.',
+        paths: {
+          'modules': 'src/modules',
+          'main': 'src/main'
+        },
         include: [
-          'src/modules/web/requirejs/config',
-          'src/modules/mobile/requirejs/config'
+          'modules/web/requirejs/config',
+          'modules/mobile/requirejs/config',
+          'backbone',
+          'modules/web/core/router',
+          'modules/mobile/core/router'
         ],
         mainConfigFile: 'src/requirejs/config.js',
-        insertRequire: ['src/main'],
+        insertRequire: ['main'],
         name: 'bower_components/almond/almond',
         out: 'prod/app.js',
-        optimize: 'uglify2',
+        optimize: 'none',
         generateSourceMaps: true,
         preserveLicenseComments: false,
       },
