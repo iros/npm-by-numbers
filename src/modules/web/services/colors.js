@@ -6,7 +6,8 @@ define(function(require){
 
   var colors = {
     regular: '#B6E3FA',
-    highlightProperties: ["#c7e9b4", "#7fcdbb", "#41b6c4", "#1d91c0", "#225ea8"] //.reverse()
+    highlightProperties: ["#c7e9b4", "#7fcdbb", "#41b6c4", "#1d91c0", "#225ea8"], //.reverse()
+    basic: ["#f7fbff","#deebf7","#c6dbef","#9ecae1","#6baed6","#4292c6","#2171b5","#084594"]
   };
 
   return colors;

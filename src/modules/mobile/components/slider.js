@@ -10,10 +10,10 @@ define(function(require) {
 
     initialize: function(options) {
       this.slides = [
-        require('tmpl!src/modules/mobile/templates/00-intro'),
-        require('tmpl!src/modules/mobile/templates/05-versions'),
-        require('tmpl!src/modules/mobile/templates/10-age'),
-        require('tmpl!src/modules/mobile/templates/15-dependents')
+        [null, require('tmpl!src/modules/mobile/templates/00-intro')],
+        ['versions', require('tmpl!src/modules/mobile/templates/05-versions')],
+        ['age', require('tmpl!src/modules/mobile/templates/10-age')],
+        ['dependents', require('tmpl!src/modules/mobile/templates/15-dependents')]
       ];
     },
 
@@ -22,11 +22,12 @@ define(function(require) {
     },
 
     afterRender: function() {
+      var self = this;
 
       // go through slides, render them, and then
       // append them to the parent element
       for(var i = 0; i < this.slides.length; i++) {
-        var slideTemplate = this.slides[i];
+        var slideTemplate = this.slides[i][1];
 
         var compiledSlide = slideTemplate(this.data);
 
@@ -39,7 +40,10 @@ define(function(require) {
         infinite: true,
         speed: 300,
         slidesToShow: 1,
-        adaptiveHeight: true
+        adaptiveHeight: true,
+        onAfterChange: function(slider, i) {
+          self.trigger('slide-change', self.slides[i][0]);
+        }
       });
 
       return this;

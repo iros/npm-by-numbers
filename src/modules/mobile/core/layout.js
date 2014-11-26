@@ -5,10 +5,12 @@ define(function(require) {
 
   var TopbarView = require('src/modules/mobile/components/topbar');
   var SliderView = require('src/modules/mobile/components/slider');
+  var VisView = require('src/modules/mobile/components/vis');
   var AboutView = require('src/modules/shared/components/about');
 
   var topbarView = new TopbarView();
   var sliderView = new SliderView();
+  var visView = new VisView();
   var aboutView = new AboutView();
 
   var layout;
@@ -18,7 +20,8 @@ define(function(require) {
     template: require("tmpl!src/modules/mobile/layouts/main"),
     views: {
       '#topbar': topbarView,
-      '#vis' : sliderView
+      '#slide-container' : sliderView,
+      '#vis': visView
     },
 
     initialize: function() {
@@ -28,6 +31,7 @@ define(function(require) {
     setData: function(data) {
       this.data = data;
       topbarView.setData(data);
+      visView.setData(data);
     },
 
     about: function() {
@@ -36,11 +40,11 @@ define(function(require) {
 
     hide: function(what) {
       if (typeof what === "undefined") {
-        this.$el.find('#questions').hide();
+        this.$el.find('#slide-container').hide();
         this.$el.find('#vis').hide();
         this.$el.find('.explore-by').hide();
-      } else if (what === "Questions") {
-        this.$el.find('#questions').hide();
+      } else if (what === "Slides") {
+        this.$el.find('#slide-container').hide();
       } else if (what === "Chart") {
         this.$el.find('#vis').hide();
       } else if (what === "Controls") {
@@ -52,11 +56,11 @@ define(function(require) {
       this.hideAbout();
       if (typeof what === "undefined") {
         //show everything that could be hidden
-        this.$el.find("#questions").show();
+        this.$el.find("#slide-container").show();
         this.$el.find("#vis").show();
         this.$el.find(".explore-by").show();
-      } else if (what === "Questions") {
-        this.$el.find('#questions').show();
+      } else if (what === "Slides") {
+        this.$el.find('#slide-container').show();
       } else if (what === "Chart") {
         this.$el.find('#vis').show();
       } else if (what === "Controls") {
@@ -64,8 +68,8 @@ define(function(require) {
       }
     },
 
-    hideQuestions: function() {
-      this.hide('Questions');
+    hideSlides: function() {
+      this.hide('Slides');
     },
     hideChart: function() {
       this.hide('Chart');
@@ -73,7 +77,6 @@ define(function(require) {
     hideControls: function() {
       this.hide('Controls');
     },
-
     hideAbout: function() {
       aboutView.$el.remove();
     }
@@ -83,6 +86,17 @@ define(function(require) {
   // breakdown/versions, breakdown/age, breakdown/dependencies
   topbarView.on('navigate', function(path) {
     layout.trigger('navigate', path);
+  });
+
+  // if the slide changes, update the visualization.
+
+  sliderView.on('slide-change', function(breakdown) {
+    if (breakdown === null) {
+      visView.hide();
+    } else {
+      visView.show();
+      visView.update(breakdown);
+    }
   });
 
   return MainLayout;

@@ -1,0 +1,61 @@
+define(function(require) {
+
+  var d3 = require('d3');
+  var Layout = require('layoutmanager');
+  require('platform/services/treemap');
+
+  return Layout.extend({
+    template: require('tmpl!src/modules/mobile/templates/vis'),
+
+    initialize: function() {
+
+    },
+
+    setData: function(data) {
+      this.data = data;
+    },
+
+    afterRender: function() {
+      var rawNode = this.el;
+
+      var width = this.$el.parent().width();
+      var height = this.$el.parent().height();
+
+      this.chart = d3.select(rawNode).append('svg')
+        .attr({
+          width: width,
+          height: height
+        });
+
+      this.treemap = this.chart.chart('TreemapChart', {
+        width: width,
+        height: height
+      });
+    },
+
+    hide: function() {
+      if (this._hidden) {
+        return;
+      } else {
+        this._hidden = true;
+        this.$el.slideUp();
+      }
+    },
+
+    show: function() {
+      if (!this._hidden) {
+        return;
+      } else {
+        this._hidden = false;
+        this.$el.slideDown();
+      }
+    },
+
+    update: function(breakdown) {
+      this.treemap.breakdown(breakdown)
+        .draw(this.data);
+    }
+
+  });
+
+});
