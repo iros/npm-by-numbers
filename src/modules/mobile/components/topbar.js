@@ -5,8 +5,7 @@ define(function(require) {
     template : require('tmpl!src/modules/mobile/templates/topbar-start'),
     manage: true,
     events: {
-      'click li' : 'onClick',
-      'click .help' : 'onHelpClick'
+      'click' : 'onClick',
     },
 
     initialize: function() {
@@ -23,7 +22,8 @@ define(function(require) {
       this.data = data;
     },
 
-    onHelpClick: function() {
+    onClick: function(ev) {
+      ev.preventDefault();
       if (!this.showingHelp) {
         this.showingHelp = true;
         this.currentLocation = window.location.pathname === "/about" ? "/" : window.location.pathname;

@@ -36,11 +36,11 @@ define(function(require) {
 
       // enable slickgrid
       this.$el.slick({
-        dots: true,
+        dots: false,
         infinite: true,
         speed: 300,
         slidesToShow: 1,
-        adaptiveHeight: true,
+        adaptiveHeight: false,
         onAfterChange: function(slider, i) {
           self.trigger('slide-change', self.slides[i][0]);
         }

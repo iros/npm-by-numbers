@@ -12,6 +12,18 @@ module.exports = function(grunt) {
       cwd: 'assets/data',
       src: '**/*',
       dest: 'prod/data',
+    },
+    slickfonts: {
+      expand: true,
+      cwd: 'bower_components/slick.js/slick/fonts',
+      src: '**/*',
+      dest: 'prod/fonts'
+    },
+    slickloader: {
+      expand: true,
+      cwd: 'bower_components/slick.js/slick/',
+      src: 'ajax-loader.gif',
+      dest: 'prod'
     }
   });
 

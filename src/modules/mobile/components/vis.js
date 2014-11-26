@@ -2,13 +2,12 @@ define(function(require) {
 
   var d3 = require('d3');
   var Layout = require('layoutmanager');
-  require('platform/services/treemap');
+  require('src/modules/mobile/services/treemap');
 
   return Layout.extend({
     template: require('tmpl!src/modules/mobile/templates/vis'),
 
-    initialize: function() {
-
+    initialize: function(options) {
     },
 
     setData: function(data) {
@@ -21,7 +20,8 @@ define(function(require) {
       var width = this.$el.parent().width();
       var height = this.$el.parent().height();
 
-      this.chart = d3.select(rawNode).append('svg')
+      this.chart = d3.select(rawNode).select('.treemap')
+        .append('svg')
         .attr({
           width: width,
           height: height

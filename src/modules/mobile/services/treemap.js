@@ -22,6 +22,8 @@ define(function(require) {
 
       self.width = options.width;
       self.height = options.height;
+      self.cols = options.cols || 3;
+      self.rows = options.rows || 2;
 
       self.base.classed('treemap', true);
 
@@ -38,9 +40,62 @@ define(function(require) {
         });
 
       self.bases = {
+        legend: self.base.append('g')
+          .classed('legend', true)
+          .attr('transform', 'translate(3,15)'), // because text.
         rects : self.base.append('g')
           .classed('rects', true)
+          .attr('transform', 'translate(0,'+self.height / 2+')')
       };
+
+      self.layer('legend', self.bases.legend, {
+        dataBind: function(data) {
+          var chart = this.chart();
+          return this.selectAll('g.item')
+            .data(chart.data.children, function(d) {
+              return d.id;
+            });
+        },
+
+        insert : function() {
+          return this.append('g')
+            .classed('item', true);
+        },
+
+        events: {
+          enter: function() {
+            var chart = this.chart();
+            this.attr('transform', function(d, i) {
+              var col = i % chart.cols; // cols
+              var row = Math.floor(i / chart.cols); //rows
+
+              return 'translate('+ (col * chart.width/chart.cols) +
+                ','+ (row * chart.height / (chart.cols * chart.rows)) +')';
+            });
+
+            this.append('rect')
+              .attr({
+                x: 0,
+                y: 0,
+                width: 15,
+                height: 15,
+                fill: function(d) { return d.color; }
+              });
+
+            this.append('text')
+              .attr({
+                x: 20,
+                y: 10
+              }).text(function(d) {
+                return d.name + ' ('+ d.percent +')';
+              });
+          },
+
+          exit: function() {
+            this.remove();
+          }
+        }
+      });
 
       self.layer('rect', self.bases.rects, {
         dataBind: function(data) {
@@ -72,54 +127,16 @@ define(function(require) {
                 height: 0,
                 fill: function(d, i) { return d.color; }
               });
-
-            this.append('text')
-              .attr({
-                x: function(d) {
-                  if (d.dx > 10) {
-                    return 5;
-                  } else {
-                    return d.dx / 2;
-                  }
-                },
-                y: function(d) {
-                  return 15;
-                }
-              })
-              .text(function(d) {
-                if (d.dx > 9) {
-                  return d.idx;
-                } else {
-                  return '';
-                }
-              })
-              .style({
-                'opacity': 0,
-                'text-anchor': function(d) {
-                  if (d.dx > 10) {
-                    return 'start';
-                  } else {
-                    return 'middle';
-                  }
-                },
-                'font-size':'0.7em'
-              });
           },
 
           "merge": function() {
-            var self = this;
-
             this.select('rect').transition().attr({
               width: function(d) { return d.dx; },
               height: function(d) { return d.dy; }
-            }).each("end", function() {
-              self.select('text').style('opacity', 1);
             });
-
           },
           "exit": function() {
             var self = this;
-            this.select('text').remove();
             this.select('rect').transition().attr({
               width: 0,
               height: 0
@@ -162,6 +179,7 @@ define(function(require) {
           id: key,
           name : name,
           value: value,
+          percent: d3.format('0%')(value / this.rawdata.total),
           color: colors.basic[i+1]
         };
       }
