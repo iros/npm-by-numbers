@@ -35,5 +35,5 @@ require.config({
       exports: "d3"
     }
   },
-  deps: ["src/main"]
+  deps: ["main"]
 });
