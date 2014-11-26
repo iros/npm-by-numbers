@@ -13,7 +13,8 @@ require.config({
     d3: "bower_components/d3/d3",
     d3Chart: "bower_components/d3.chart/d3.chart",
     layoutmanager: "bower_components/layoutmanager/backbone.layoutmanager",
-    when: "bower_components/when/when"
+    when: "bower_components/when/when",
+    slick: "bower_components/slick.js/slick/slick"
   },
 
   packages: [{ main: "when", location: "bower_components/when", name: "when" }],

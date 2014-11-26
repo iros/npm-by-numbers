@@ -12,9 +12,7 @@ define(function() {
       components: "platform/components",
       layouts: "platform/components/layouts",
       core: "platform/core",
-      services: "platform/services",
-
-      slick: "bower_components/slick.js/slick/slick"
+      services: "platform/services"
     },
 
     shim: {
