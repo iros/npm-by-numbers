@@ -40,5 +40,5 @@ require.config({
       deps: ["slick"]
     }
   },
-  deps: ["src/main"]
+  deps: ["main"]
 });

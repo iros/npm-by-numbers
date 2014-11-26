@@ -5,7 +5,7 @@ define(function() {
   // requirements:
   var platform = Modernizr.mq('(min-width: 760px)') ? 'web' : 'mobile';
 
-  require(['src/modules/' + platform + '/requirejs/config'], function() {
+  require(['modules/' + platform + '/requirejs/config'], function() {
 
     // load hard dependencies as well as core platform router.
     require(['backbone', 'jquery', 'platform/core/router'], function(Backbone, $, Router) {
