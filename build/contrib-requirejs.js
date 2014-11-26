@@ -4,6 +4,10 @@ module.exports = function(grunt) {
     prod: {
       options: {
         baseUrl: '.',
+        include: [
+          'src/modules/web/requirejs/config',
+          'src/modules/mobile/requirejs/config'
+        ],
         mainConfigFile: 'src/requirejs/config.js',
         insertRequire: ['src/main'],
         name: 'bower_components/almond/almond',
