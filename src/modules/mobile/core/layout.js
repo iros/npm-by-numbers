@@ -3,10 +3,10 @@ define(function(require) {
   var Layout = require("layoutmanager");
   Layout.configure({ manage: true });
 
-  var TopbarView = require('src/modules/mobile/components/topbar');
-  var SliderView = require('src/modules/mobile/components/slider');
-  var VisView = require('src/modules/mobile/components/vis');
-  var AboutView = require('src/modules/shared/components/about');
+  var TopbarView = require('../components/topbar');
+  var SliderView = require('../components/slider');
+  var VisView = require('../components/vis');
+  var AboutView = require('../../shared/components/about');
 
   var topbarView = new TopbarView();
   var sliderView = new SliderView();
@@ -17,7 +17,7 @@ define(function(require) {
 
   var MainLayout = Layout.extend({
     el: "#main",
-    template: require("tmpl!src/modules/mobile/layouts/main"),
+    template: require("tmpl!../layouts/main"),
     views: {
       '#topbar': topbarView,
       '#slide-container' : sliderView,

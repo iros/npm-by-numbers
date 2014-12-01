@@ -1,7 +1,7 @@
 define(function(require) {
   var $ = require('jquery');
   var Layout = require("layoutmanager");
-  var controlTemplate = require('tmpl!src/modules/web/templates/vis-topbar-controls');
+  var controlTemplate = require('tmpl!../templates/vis-topbar-controls');
 
   return Layout.extend({
     manage: true,

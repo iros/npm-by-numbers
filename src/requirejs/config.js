@@ -20,21 +20,8 @@ require.config({
   packages: [{ main: "when", location: "bower_components/when", name: "when" }],
 
   shim: {
-    backbone: {
-      exports: "Backbone",
-      deps: ["underscore", "jquery"]
-    },
-
-    underscore: { exports: "_" },
-
-    d3Chart: {
-      exports: "d3.chart",
-      deps: ["d3"]
-    },
-
-    d3: {
-      exports: "d3"
-    }
+    d3Chart: ["d3"]
   },
+
   deps: ["main"]
 });

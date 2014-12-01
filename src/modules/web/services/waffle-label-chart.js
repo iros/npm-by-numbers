@@ -4,7 +4,7 @@ define(function(require) {
 
   require('d3Chart');
 
-  var colors = require('src/modules/web/services/colors');
+  var colors = require('./colors');
 
   d3.chart('waffleLabelsChart', {
 

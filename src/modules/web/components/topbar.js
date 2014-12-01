@@ -1,10 +1,10 @@
 define(function(require) {
   var $ = require('jquery');
   var Layout = require("layoutmanager");
-  var controlTemplate = require('tmpl!src/modules/web/templates/topbar-grid');
+  var controlTemplate = require('tmpl!../templates/topbar-grid');
 
   return Layout.extend({
-    template : require('tmpl!src/modules/web/templates/topbar-start'),
+    template : require('tmpl!../templates/topbar-start'),
     manage: true,
     events: {
       'click li' : 'onClick',

@@ -1,14 +1,14 @@
 define(function(require) {
   var $ = require('jquery');
-  var Accordion = require('src/modules/web/services/accordion');
-  var QuestionBreakdownView = require('src/modules/web/components/question-breakdown');
+  var Accordion = require('../services/accordion');
+  var QuestionBreakdownView = require('../components/question-breakdown');
   var Layout = require("layoutmanager");
 
   var questionTemplates = {
-    intro: require('tmpl!src/modules/web/templates/questions-intro'),
-    versions: require('tmpl!src/modules/web/templates/questions-versions'),
-    age: require('tmpl!src/modules/web/templates/questions-age'),
-    dependents: require('tmpl!src/modules/web/templates/questions-dependents')
+    intro: require('tmpl!../templates/questions-intro'),
+    versions: require('tmpl!../templates/questions-versions'),
+    age: require('tmpl!../templates/questions-age'),
+    dependents: require('tmpl!../templates/questions-dependents')
   };
 
 

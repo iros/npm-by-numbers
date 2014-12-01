@@ -8,13 +8,6 @@ module.exports = function(grunt) {
           'modules': 'src/modules',
           'main': 'src/main'
         },
-        include: [
-          'modules/web/requirejs/config',
-          'modules/mobile/requirejs/config',
-          'backbone',
-          'modules/web/core/router',
-          'modules/mobile/core/router'
-        ],
         mainConfigFile: 'src/requirejs/config.js',
         insertRequire: ['main'],
         name: 'bower_components/almond/almond',

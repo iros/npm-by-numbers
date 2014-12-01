@@ -2,7 +2,7 @@ define(function(require) {
   var Layout = require("layoutmanager");
 
   return Layout.extend({
-    template : require('tmpl!src/modules/mobile/templates/topbar-start'),
+    template : require('tmpl!../templates/topbar-start'),
     manage: true,
     events: {
       'click' : 'onClick',
