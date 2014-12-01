@@ -29,4 +29,16 @@ html
       script.
         document.write('<script src="http://' + location.hostname + ':35729/livereload.js?snipver=1"><\/script>')
     else
-      script(src='/app.js')
+      script.
+        (function() {
+          // Figure out which require config we should be calling to add platform
+          // specific requirements:
+          var platform = Modernizr.mq('(min-width: 760px)') ? 'web' : 'mobile';
+
+          if (platform === 'web') {
+            document.write('<script src="./web.js"><\/script>')
+          }
+          else {
+            document.write('<script src="./mobile.js"><\/script>')
+          }
+        })();
