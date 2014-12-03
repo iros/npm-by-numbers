@@ -2,7 +2,7 @@ define(function(require) {
   var $ = require('jquery');
   var _ = require('lodash');
   var d3 = require('d3');
-  var colors = require('../services/colors');
+  var colors = require('../../shared/services/colors');
   var Layout = require("layoutmanager");
 
   return Layout.extend({

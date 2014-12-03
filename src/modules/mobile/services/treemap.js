@@ -2,7 +2,7 @@ define(function(require) {
   var d3 = require('d3');
   require('d3Chart');
 
-  var colors = require('../../web/services/colors');
+  var colors = require('../../shared/services/colors');
 
   d3.chart('TreemapChart', {
     transform: function(data) {
