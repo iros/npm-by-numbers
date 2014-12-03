@@ -1,8 +1,9 @@
 define(function(require) {
 
   var Layout = require('layoutmanager');
-  require('jquery');
+  var $ = require('jquery');
   require('slick');
+  require('../services/jquery-mobile-touch-custom');
 
   return Layout.extend({
 
@@ -26,16 +27,16 @@ define(function(require) {
 
       // go through slides, render them, and then
       // append them to the parent element
-      for(var i = 0; i < this.slides.length; i++) {
-        var slideTemplate = this.slides[i][1];
+      for(var i = 0; i < self.slides.length; i++) {
+        var slideTemplate = self.slides[i][1];
 
-        var compiledSlide = slideTemplate(this.data);
+        var compiledSlide = slideTemplate(self.data);
 
-        this.$el.append(compiledSlide);
+        self.$el.append(compiledSlide);
       }
 
       // enable slickgrid
-      this.$el.slick({
+      self.$el.slick({
         dots: false,
         infinite: true,
         speed: 300,
@@ -46,7 +47,19 @@ define(function(require) {
         }
       });
 
-      return this;
+      // bind a listener to the body that will pass swipe events to slick
+      // if swiped not on the slides.
+      $('body').swipeleft(function(ev) {
+        console.log("left");
+        self.$el.slickNext();
+      });
+
+      $('body').swiperight(function(ev) {
+        console.log("right");
+        self.$el.slickPrev();
+      });
+
+      return self;
     }
 
   });
