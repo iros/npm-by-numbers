@@ -2,11 +2,11 @@ define(function(require) {
   var $ = require('jquery');
   var _ = require('lodash');
   var d3 = require('d3');
-  var colors = require('src/modules/web/services/colors');
+  var colors = require('../services/colors');
   var Layout = require("layoutmanager");
 
   return Layout.extend({
-    template: require('tmpl!src/modules/web/templates/question-breakdown'),
+    template: require('tmpl!../templates/question-breakdown'),
     manage: true,
 
     events: {

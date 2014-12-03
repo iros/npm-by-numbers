@@ -4,17 +4,17 @@ define(function(require) {
   var $ = require('jquery');
   var Layout = require("layoutmanager");
 
-  var LayoutMath = require('src/modules/web/services/layoutmath');
-  var DataModeler = require('src/modules/web/services/datamodeler');
-  var VisTopBar = require('src/modules/web/components/vis-topbar');
+  var LayoutMath = require('../services/layoutmath');
+  var DataModeler = require('../services/datamodeler');
+  var VisTopBar = require('../components/vis-topbar');
 
   // get our chart.
-  require('src/modules/web/services/waffle-chart');
-  require('src/modules/web/services/waffle-label-chart');
+  require('../services/waffle-chart');
+  require('../services/waffle-label-chart');
 
   return Layout.extend({
     manage: true,
-    template: require('tmpl!src/modules/web/templates/vis'),
+    template: require('tmpl!../templates/vis'),
 
     initialize: function() {
       var self = this;

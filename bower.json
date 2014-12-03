@@ -39,5 +39,8 @@
   },
   "devDependencies": {
     "almond": "~0.2.9"
+  },
+  "resolutions": {
+    "d3": "~3.4.11"
   }
 }
