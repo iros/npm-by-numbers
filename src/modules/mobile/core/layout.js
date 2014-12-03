@@ -6,12 +6,15 @@ define(function(require) {
   var TopbarView = require('../components/topbar');
   var SliderView = require('../components/slider');
   var VisView = require('../components/vis');
+  var SillyForceView = require('../components/force');
+
   var AboutView = require('../../shared/components/about');
 
   var topbarView = new TopbarView();
   var sliderView = new SliderView();
   var visView = new VisView();
   var aboutView = new AboutView();
+  var sillyforceView = new SillyForceView();
 
   var layout;
 
@@ -21,7 +24,8 @@ define(function(require) {
     views: {
       '#topbar': topbarView,
       '#slide-container' : sliderView,
-      '#vis': visView
+      '#vis': visView,
+      '#force': sillyforceView
     },
 
     initialize: function() {
@@ -92,8 +96,10 @@ define(function(require) {
   sliderView.on('slide-change', function(breakdown, treemap_highlight) {
     if (breakdown === null) {
       visView.hide();
+      sillyforceView.show();
     } else {
       layout.$el.find('#vis').show();
+      sillyforceView.hide();
       visView.show();
       visView.update(breakdown);
       if (treemap_highlight) {
