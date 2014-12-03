@@ -3,10 +3,10 @@ define(function(require) {
   var Layout = require("layoutmanager");
   Layout.configure({ manage: true });
 
-  var TopbarView = require('src/modules/web/components/topbar');
-  var VisView = require('src/modules/web/components/vis');
-  var QuestionView = require('src/modules/web/components/questions-view');
-  var AboutView = require('src/modules/shared/components/about');
+  var TopbarView = require('../components/topbar');
+  var VisView = require('../components/vis');
+  var QuestionView = require('../components/questions-view');
+  var AboutView = require('../../shared/components/about');
   var currentQuestion;
 
   // Use main layout and set Views.
@@ -18,7 +18,7 @@ define(function(require) {
   var layout;
   var MainLayout = Layout.extend({
     el: "#main",
-    template: require("tmpl!src/modules/web/layouts/main"),
+    template: require("tmpl!../layouts/main"),
 
     views: {
       '#topbar': topbarView,

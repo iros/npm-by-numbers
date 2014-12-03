@@ -3,10 +3,10 @@ define(function(require) {
   var when = require('when');
   var Backbone = require('backbone');
 
-  var MainLayout = require('src/modules/mobile/core/layout');
+  var MainLayout = require('./layout');
   var layout = new MainLayout();
 
-  var DataFetcher = require('src/modules/shared/services/datafetcher');
+  var DataFetcher = require('../../shared/services/datafetcher');
 
   var currentPage;
   var Router = Backbone.Router.extend({

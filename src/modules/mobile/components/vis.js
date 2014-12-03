@@ -2,10 +2,10 @@ define(function(require) {
 
   var d3 = require('d3');
   var Layout = require('layoutmanager');
-  require('src/modules/mobile/services/treemap');
+  require('../services/treemap');
 
   return Layout.extend({
-    template: require('tmpl!src/modules/mobile/templates/vis'),
+    template: require('tmpl!../templates/vis'),
 
     initialize: function(options) {
     },

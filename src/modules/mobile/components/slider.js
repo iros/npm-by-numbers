@@ -10,10 +10,10 @@ define(function(require) {
 
     initialize: function(options) {
       this.slides = [
-        [null, require('tmpl!src/modules/mobile/templates/00-intro')],
-        ['versions', require('tmpl!src/modules/mobile/templates/05-versions')],
-        ['age', require('tmpl!src/modules/mobile/templates/10-age')],
-        ['dependents', require('tmpl!src/modules/mobile/templates/15-dependents')]
+        [null, require('tmpl!../templates/00-intro')],
+        ['versions', require('tmpl!../templates/05-versions')],
+        ['age', require('tmpl!../templates/10-age')],
+        ['dependents', require('tmpl!../templates/15-dependents')]
       ];
     },
 
