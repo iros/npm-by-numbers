@@ -51,6 +51,10 @@ define(function(require) {
       }
     },
 
+    highlight: function(selector) {
+      this.treemap.highlight(selector);
+    },
+
     update: function(breakdown) {
       this.treemap.breakdown(breakdown)
         .draw(this.data);

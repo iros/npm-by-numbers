@@ -45,6 +45,7 @@ define(function(require) {
       // do nothing.
       this.ready.then(function() {
         layout.show();
+        layout.$el.find('#vis').hide();
       });
     },
 

@@ -24,7 +24,7 @@ define(function(require) {
       self.height = options.height;
       self.cols = options.cols || 3;
       self.rows = options.rows || 2;
-
+      self.padding = 2;
       self.base.classed('treemap', true);
 
       // starting treemap breakdown, by version.
@@ -32,7 +32,7 @@ define(function(require) {
 
       self.treemapLayout = d3.layout.treemap()
         .padding(3)
-        .size([self.width, self.height])
+        .size([self.width, self.height / 2])
         .mode('slice')
         .value(function(d) { return d.value; })
         .sort(function(d, d2) {
@@ -130,9 +130,10 @@ define(function(require) {
           },
 
           "merge": function() {
+            var chart = this.chart();
             this.select('rect').transition().attr({
-              width: function(d) { return d.dx; },
-              height: function(d) { return d.dy; }
+              width: function(d) { return d.dx - chart.padding; },
+              height: function(d) { return d.dy - chart.padding; }
             });
           },
           "exit": function() {
@@ -147,6 +148,20 @@ define(function(require) {
           }
         }
       });
+    },
+
+    highlight: function(selector) {
+      var self = this;
+      setTimeout(function() {
+        if (self.currentSelector) {
+          self.base.selectAll(self.currentSelector).classed('selected', false);
+        }
+        self.base.selectAll(selector).classed('selected', true);
+
+        self.currentSelector = selector;
+      }, 500); // to account for chart redrawing...
+
+      return self;
     },
 
     breakdown: function(breakdown) {

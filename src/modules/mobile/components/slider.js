@@ -12,9 +12,16 @@ define(function(require) {
     initialize: function(options) {
       this.slides = [
         [null, require('tmpl!../templates/00-intro')],
-        ['versions', require('tmpl!../templates/05-versions')],
-        ['age', require('tmpl!../templates/10-age')],
-        ['dependents', require('tmpl!../templates/15-dependents')]
+        ['versions', require('tmpl!../templates/05-versions'),
+          'g.rects g.node:nth-child(2) rect'],
+        ['versions', require('tmpl!../templates/06-versions-major1'),
+          'g.rects g.node:nth-child(4) rect'],
+        ['age', require('tmpl!../templates/10-age'),
+          'g.rects g.node:nth-child(2) rect, g.rects g.node:nth-child(3) rect,g.rects g.node:nth-child(4) rect '],
+        ['dependents', require('tmpl!../templates/15-dependents'),
+          'g.rects g.node:nth-child(2) rect'],
+        ['dependents', require('tmpl!../templates/16-dependents-2'),
+          'g.rects g.node:nth-child(6) rect']
       ];
     },
 
@@ -43,7 +50,7 @@ define(function(require) {
         slidesToShow: 1,
         adaptiveHeight: false,
         onAfterChange: function(slider, i) {
-          self.trigger('slide-change', self.slides[i][0]);
+          self.trigger('slide-change', self.slides[i][0], self.slides[i][2]);
         }
       });
 

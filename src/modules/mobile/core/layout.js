@@ -89,13 +89,16 @@ define(function(require) {
   });
 
   // if the slide changes, update the visualization.
-
-  sliderView.on('slide-change', function(breakdown) {
+  sliderView.on('slide-change', function(breakdown, treemap_highlight) {
     if (breakdown === null) {
       visView.hide();
     } else {
+      layout.$el.find('#vis').show();
       visView.show();
       visView.update(breakdown);
+      if (treemap_highlight) {
+        visView.highlight(treemap_highlight);
+      }
     }
   });
 
