@@ -60,7 +60,6 @@ define(function(require) {
       };
 
       function onEnd() {
-        console.log("end");
         if (self.running) {
           generateLinks();
           self.draw();
@@ -77,7 +76,6 @@ define(function(require) {
         .charge(-400)
         .linkDistance(320)
         .size([self.width, self.height])
-        .on("start", function() { console.log("start"); })
         .on("tick", tick)
         .on("end", onEnd);
 
