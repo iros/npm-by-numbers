@@ -11,7 +11,7 @@ module.exports = function(grunt) {
     options: {
       key: creds.accessKeyId,
       secret: creds.secretAccessKey,
-      bucket: "npmvis.bocoup.com",
+      bucket: "npmbynumbers.bocoup.com",
       access: 'public-read',
       cache: false,
       headers: {
