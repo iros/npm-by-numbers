@@ -6,10 +6,20 @@ You can view the visualization live here:
 
 http://npmbynumbers.bocoup.com
 
-### Where is the data?
+## Screenshots
+
+#### Web:
+
+![web](http://i.gyazo.com/9a3c81255e5cf100ac3176d69c22f288.png)
+
+#### Mobile:
+
+![mobile](http://i.gyazo.com/3893564c05f88ecca1a26e4c97b7156d.png)
+
+## Where is the data?
 
 The data for this specific application lives in `assets/data` but that json file is  built elsewhere.
-You can see that process here:
+You can see that process here: http://github.com/iros/npm-by-numbers-analysis
 
 ### Development
 
