@@ -18,10 +18,10 @@ define(function(require) {
           'g.rects g.node:nth-child(4) rect'],
         ['age', require('tmpl!../templates/10-age'),
           'g.rects g.node:nth-child(2) rect, g.rects g.node:nth-child(3) rect,g.rects g.node:nth-child(4) rect '],
+        ['dependents', require('tmpl!../templates/14-dependents-how')],
         ['dependents', require('tmpl!../templates/15-dependents'),
-          'g.rects g.node:nth-child(2) rect'],
-        ['dependents', require('tmpl!../templates/16-dependents-2'),
-          'g.rects g.node:nth-child(6) rect']
+          'g.rects g.node:nth-child(2) rect, g.rects g.node:nth-child(6) rect'],
+        ['dependents', require('tmpl!../templates/16-dependents-2')]
       ];
     },
 
